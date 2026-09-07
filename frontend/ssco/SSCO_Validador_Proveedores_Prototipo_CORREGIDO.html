@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificador SSCO - Cruce con Registro de Compras SIRE</title>
+<style>
+:root{
+  --bg:#fbeef1; --card:#fff; --text:#24262b; --muted:#727780;
+  --border:#e2e5e9; --green:#237a4b; --green-bg:#e9f7ef;
+  --red:#9b1c31; --red-bg:#fff0f2; --wine:#862022;
+  --maroon:#862022; --maroon-bg:#fdf1f4;
+  --shadow:0 8px 28px rgba(26,31,36,.07); --radius:18px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text)}
+.container{max-width:1180px;margin:36px auto;padding:0 22px}
+.header{margin-bottom:24px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--red);text-transform:uppercase}
+h1{font-size:32px;margin:7px 0 4px}
+.subtitle{color:var(--muted);margin:0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:25px;margin-bottom:20px}
+.card h2{font-size:20px;margin:0 0 7px}
+.card p{margin:0;color:var(--muted)}
+.status{margin-top:18px;padding:18px 20px;border-radius:14px;background:var(--green-bg);border:1px solid #c9ead7;display:flex;align-items:center;gap:14px}
+.dot{flex:0 0 auto;width:10px;height:10px;margin-top:5px;background:#16723e;border-radius:50%;display:inline-block}
+.status-text{display:flex;flex-direction:column;gap:4px;text-align:left}
+.status-text strong{color:#175c37;font-size:15px}
+.status-text small{display:block;color:#47725a;line-height:1.4}
+.upload-zone{margin-top:20px}
+.dropzone{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;box-sizing:border-box;border:2px dashed var(--maroon);border-radius:16px;padding:34px 20px;text-align:center;cursor:pointer;transition:.2s;background:var(--maroon-bg)}
+.dropzone:hover,.dropzone.drag{border-color:#6a1a1c;background:#fbe4e9}
+.dropzone .icon{font-size:30px;color:var(--maroon)}
+.dropzone strong{display:block;font-size:18px;margin:8px 0;word-break:break-word;max-width:100%;color:var(--maroon)}
+.dropzone span{display:block;color:#8a4a55;font-size:13px}
+.upload-zone.loaded{background:var(--green-bg);border:1px solid #bfe2cc;border-radius:16px;padding-bottom:18px}
+.upload-zone.loaded .dropzone{background:transparent;border:none;border-radius:0;padding:28px 20px 12px}
+.upload-zone.loaded .dropzone:hover{background:transparent}
+.upload-zone.loaded .icon{color:#237a4b}
+.upload-zone.loaded strong{color:#175c37}
+.upload-zone.loaded span{color:#3f6b52}
+input[type=file]{display:none}
+.file-row{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:0 20px;padding:11px 16px;background:#fff;border:1px solid #cfe9da;border-radius:12px;flex-wrap:wrap}
+.file-row-info{font-size:13px;color:#24262b;min-width:0;word-break:break-word}
+.file-ok{color:var(--green);font-weight:800}
+.remove{flex:0 0 auto;border:0;background:none;color:#a12639;font-weight:700;font-size:13px;cursor:pointer;padding:4px 2px}
+.note{margin-top:16px;background:#fff9e8;border:1px solid #f0dfae;border-radius:13px;padding:13px 15px;color:#655522;font-size:14px}
+.actions{display:flex;gap:12px;margin-top:18px}
+button{border:0;border-radius:12px;padding:12px 18px;font-weight:800;cursor:pointer}
+.primary{background:#f7c823;color:#20232a;font-size:15px;padding:14px 22px;border-radius:14px;border:1px solid #e0af00;box-shadow:0 6px 16px rgba(247,200,35,.4)}
+.primary:hover{background:#f9d449}
+.secondary{background:#eef0f3;color:#343940}
+.results{display:none}.results.show{display:block}
+.alert-card{padding:20px;border-radius:16px;margin-bottom:18px;font-weight:700}
+.success{background:var(--green-bg);border:1px solid #bfe2cc;color:#176238}
+.danger{background:var(--red-bg);border:1px solid #efc1c9;color:#921b31}
+.alert-card p{margin:7px 0 0;font-weight:500;color:inherit}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.metric{background:#fff;border:1px solid var(--border);border-radius:15px;padding:20px 18px}
+.metric .label{color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.metric .value{font-size:32px;font-weight:900;margin-top:6px;color:var(--text)}
+.metric.highlight .value{color:var(--maroon)}
+.impact{background:var(--wine);color:#fff;border-radius:16px;padding:24px 26px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.impact-label{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;opacity:.85}
+.impact-total{font-size:34px;font-weight:900;margin-top:8px}
+.impact-side{display:flex;gap:32px}
+.impact-side small{display:block;font-size:11px;opacity:.75;text-transform:uppercase;letter-spacing:.03em}
+.impact-side strong{display:block;font-size:19px;font-weight:800;color:#f7c823;margin-top:5px}
+.section-title{font-size:17px;font-weight:850;margin:24px 0 10px}
+.explain{background:#fff9e8;border:1px solid #f0dfae;padding:14px;border-radius:12px;color:#5c4a12;font-size:13px}
+.explain strong{color:#4a3d00}
+.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:14px}
+table{width:100%;border-collapse:collapse;min-width:850px}
+th,td{padding:13px 14px;border-bottom:1px solid #eceef1;text-align:left;font-size:14px}
+th{background:var(--wine);color:#fff;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.table-wrap tr:last-child td{border-bottom:0}
+.badge{display:inline-block;background:#c0293f;color:#fff;border:none;padding:3px 9px;border-radius:6px;font-size:11px;font-weight:800;letter-spacing:.02em}
+.toggle{background:none;border:0;color:#7c1d35;padding:5px 0;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+tr.provider-row td{background:#fdf1f4;vertical-align:top}
+tr.provider-row td:first-child{line-height:1.7}
+tr.totals-row td{background:var(--maroon-bg);color:var(--maroon);font-weight:800;font-style:normal;border-top:2px solid var(--maroon)}
+.detail-inner table{width:100%;max-width:100%;border-radius:12px;overflow:hidden;box-shadow:0 1px 5px rgba(20,20,20,.08)}
+.detail-inner table th{background:var(--wine);color:#fff;text-transform:uppercase;font-size:11px;letter-spacing:.03em}
+.detail-inner table td{background:#fff}
+.detail-row{display:none;background:#fcfcfd}.detail-row.open{display:table-row}
+.detail-inner{padding:16px 24px 18px 28px}
+tr.provider-row td:last-child{text-align:center}
+.toggle{margin-top:9px;display:inline-block}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.toolbar button{background:#fff;border:1px solid var(--border);color:var(--maroon);font-weight:800}
+.empty{text-align:center;color:var(--muted);padding:25px}
+#printArea{display:none}
+.print-header{margin-bottom:22px;border-bottom:4px solid var(--maroon);padding-bottom:16px}
+.print-header h1{font-size:26px;margin:0 0 6px;color:var(--maroon);font-weight:900}
+.print-header p{margin:0;color:#555;font-size:13px}
+.print-summary{width:100%;border-collapse:collapse;margin:20px 0 26px}
+.print-summary td{border:1px solid var(--maroon);padding:9px 13px;font-size:13px;vertical-align:top}
+.print-summary td:first-child{width:200px;background:var(--maroon-bg);color:var(--maroon);font-weight:800}
+.print-summary td:last-child{background:#fff;color:#24262b;font-weight:400}
+html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact}
+@media print{
+  body *{visibility:hidden}
+  html,body{background:#fff !important}
+  #printArea,#printArea *{visibility:visible;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;color-adjust:exact !important}
+  #printArea{display:block;position:absolute;left:0;top:0;width:100%;padding:10px;background:#fff}
+  .container{display:none}
+}
+@media(max-width:800px){.metrics{grid-template-columns:1fr 1fr}.impact-grid{grid-template-columns:1fr}.container{margin-top:20px}}
+@media(max-width:520px){.metrics{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="eyebrow">SSCO · Control tributario</div>
+    <h1>Verificador SSCO - Cruce con Registro de Compras SIRE</h1>
+    <p class="subtitle">Cruce del Registro de Compras contra el padrón publicado por SUNAT.</p>
+  </div>
+
+  <section class="card">
+    <h2>Padrón SSCO de SUNAT</h2>
+    <p>Se actualiza automáticamente todos los días.</p>
+    <div class="status">
+      <span class="dot"></span>
+      <div class="status-text">
+        <strong id="padronStatus">Padrón SSCO Cargado ✓</strong>
+        <small id="padronCount">0 RUC calificados como SSCO</small>
+        <small id="padronDate">Actualizado al —</small>
+      </div>
+    </div>
+    <div class="toolbar">
+      <button onclick="window.open('https://www.sunat.gob.pe/padronesnotificaciones/sujeSinCapacidadOperativa.html','_blank')">Abrir fuente SUNAT ↗</button>
+      <button onclick="loadDemo()" title="Carga datos simulados para probar el módulo">Cargar ejemplo</button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Cargar Registro de Compras (SIRE/RCE)</h2>
+    <p>El archivo de tu propuesta o registro generado en el SIRE de SUNAT.</p>
+
+    <div class="upload-zone" id="uploadZone">
+      <label class="dropzone" id="dropzone">
+        <div class="icon">⇧</div>
+        <strong id="dzTitle">Arrastra aquí tus archivos</strong>
+        <span id="dzSubtitle">TXT del PLE, Excel (.xlsx / .xls) o CSV o ZIP del SIRE</span>
+        <input id="fileInput" type="file" accept=".txt,.xlsx,.xls,.csv,.zip">
+      </label>
+      <div id="fileList"></div>
+    </div>
+
+    <div class="note">⚠️ Sirve tanto el archivo de propuesta descargada del SIRE (texto plano delimitado por | ) como el reporte exportado a Excel. La herramienta detecta el RUC del proveedor automáticamente.</div>
+
+    <div class="actions">
+      <button class="primary" onclick="verify()">🔎 VERIFICAR CRUCE SSCO</button>
+      <button class="secondary" onclick="clearAll()">CANCELAR</button>
+    </div>
+  </section>
+
+  <section class="results" id="results">
+    <div id="resultBanner"></div>
+    <div id="impactSection"></div>
+
+    <div class="metrics">
+      <div class="metric"><div class="label">Comprobantes analizados</div><div class="value" id="mDocs">0</div></div>
+      <div class="metric"><div class="label">Proveedores únicos</div><div class="value" id="mProviders">0</div></div>
+      <div class="metric"><div class="label">RUC en Padrón SSCO</div><div class="value" id="mPadron">0</div></div>
+      <div class="metric highlight"><div class="label">COINCIDENCIAS SSCO</div><div class="value" id="mMatches">0</div></div>
+    </div>
+
+    <div class="section-title">🚩 PROVEEDORES SSCO ENCONTRADOS</div>
+    <div class="explain"><strong>IMPACTO RENTA</strong> = base imponible × 29.5% (si el comprobante no tiene IGV, total × 29.5%). <strong>IMPACTO IGV</strong> = crédito fiscal del comprobante. Cifras estimadas, valida contra el comprobante y el SIRE.</div>
+
+    <div class="table-wrap" style="margin-top:14px">
+      <table>
+        <thead><tr><th>RUC PROVEEDOR</th><th>RAZÓN SOCIAL</th><th>NRO. COMPROBANTES</th><th>IMPUESTO RENTA</th><th>IMPUESTO IGV</th><th>IMPACTO TOTAL</th></tr></thead>
+        <tbody id="providerRows"><tr><td colspan="6" class="empty">Sin resultados.</td></tr></tbody>
+      </table>
+    </div>
+
+    <div class="toolbar">
+      <button onclick="exportExcel()">📗 Descargar informe (Excel)</button>
+      <button onclick="exportPDF()">📕 Descargar informe (PDF)</button>
+    </div>
+  </section>
+</div>
+
+<div id="printArea">
+  <div class="print-header">
+    <h1>Informe de Verificación SSCO</h1>
+    <p>Cruce del Registro de Compras (SIRE) contra el padrón de Sujetos sin Capacidad Operativa - SUNAT</p>
+  </div>
+  <table class="print-summary" id="printSummary"></table>
+  <div id="printResults"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+<script>
+const state={
+  file:null,
+  demo:false,
+  padron:[],
+  docs:[]
+};
+
+// Datos ficticios únicamente para probar el prototipo.
+// No representan el padrón real de SUNAT.
+const demoPadron=[
+ {ruc:"20123456789",name:"SERVICIOS DEMO SSCO S.A.C.",resolution:"Resolución ficticia DEMO-001",date:"03/09/2026"},
+ {ruc:"20456789123",name:"TRANSPORTES DEMO PERÚ S.R.L.",resolution:"Resolución ficticia DEMO-002",date:"03/09/2026"}
+];
+// Catálogo N.° 01 SUNAT (Tipo de Comprobante de Pago), simplificado a los tipos usados en el prototipo.
+const TIPO_DOC={"Factura":"01","Recibo por Honorarios":"02","Boleta":"03","Boleta de Venta":"03"};
+function docCode(d){return TIPO_DOC[d.type]||"01"}
+function docLabel(d){return `${docCode(d)}-${d.series}-${d.number}`}
+const demoDocs=[
+ {ruc:"20123456789",name:"SERVICIOS DEMO SSCO S.A.C.",date:"05/07/2026",type:"Factura",series:"F001",number:"00001234",base:1000,igv:180,total:1180},
+ {ruc:"20123456789",name:"SERVICIOS DEMO SSCO S.A.C.",date:"20/07/2026",type:"Factura",series:"F001",number:"00001280",base:500,igv:90,total:590},
+ {ruc:"20999999999",name:"PROVEEDOR NO SSCO S.A.C.",date:"22/07/2026",type:"Factura",series:"F001",number:"00000055",base:700,igv:126,total:826}
+];
+// Contribuyente/periodo de ejemplo, solo para el flujo DEMO del prototipo (dato ficticio, no una conexión real con SUNAT).
+const demoContribuyente={ruc:"20605874321",name:"COMERCIAL ANDINA DEL SUR S.R.L.",periodo:"Julio 2026"};
+
+const dz=document.getElementById('dropzone'), input=document.getElementById('fileInput');
+dz.addEventListener('click',()=>input.click());
+input.addEventListener('change',e=>setFile(e.target.files[0]));
+['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add('drag')}));
+['dragleave','drop'].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove('drag')}));
+dz.addEventListener('drop',e=>{if(e.dataTransfer.files[0])setFile(e.dataTransfer.files[0])});
+
+function showLoadedFile(name,countLabel){
+ document.getElementById('uploadZone').classList.add('loaded');
+ document.getElementById('dzTitle').textContent=name;
+ document.getElementById('fileList').innerHTML=
+ `<div class="file-row">
+    <span class="file-row-info"><span class="file-ok">✓</span> ${escapeHtml(name)} · ${escapeHtml(countLabel)}</span>
+    <button class="remove" onclick="removeFile(event)">quitar</button>
+  </div>`;
+}
+function setFile(file){
+ if(!file)return;
+ state.file=file; state.demo=false;
+ showLoadedFile(file.name,'comprobantes por detectar (lector real en desarrollo)');
+}
+function removeFile(e){
+ e.stopPropagation();
+ state.file=null;
+ document.getElementById('uploadZone').classList.remove('loaded');
+ dz.classList.remove('drag');
+ document.getElementById('dzTitle').textContent='Arrastra aquí tus archivos';
+ document.getElementById('fileList').innerHTML='';
+ input.value='';
+}
+function clearAll(){removeFile({stopPropagation(){}});document.getElementById('results').classList.remove('show');state.demo=false;state.docs=[]}
+function setPadronCount(n){
+ document.getElementById('padronCount').textContent=n.toLocaleString('es-PE')+' RUC calificados como SSCO';
+}
+function formatDateEs(d){
+ return d.toLocaleDateString('es-PE',{day:'2-digit',month:'2-digit',year:'numeric'});
+}
+function loadDemo(){
+ state.demo=true;state.padron=[...demoPadron];state.docs=[...demoDocs];
+ showLoadedFile('Registro_Compras_Julio_2026_DEMO.xlsx',state.docs.length+' comprobantes');
+ setPadronCount(state.padron.length);
+}
+// Fecha del padrón: se actualiza automáticamente con la fecha del navegador (simula la actualización diaria del padrón).
+setPadronCount(0);
+document.getElementById('padronDate').textContent='Actualizado al '+formatDateEs(new Date());
+function verify(){
+ if(!state.demo){
+   if(!state.file){alert('Selecciona un archivo o pulsa "Cargar ejemplo" para probar el prototipo.');return}
+   alert('El lector real de TXT/XLS/XLSX/CSV/ZIP y la conexión automática con SUNAT se implementarán en la siguiente fase. Para probar el flujo ahora, pulsa "Cargar ejemplo".');
+   return;
+ }
+ renderResults();
+}
+function renderResults(){
+ const matches=state.docs.filter(d=>state.padron.some(p=>p.ruc===d.ruc));
+ const unique=[...new Set(state.docs.map(d=>d.ruc))];
+ document.getElementById('results').classList.add('show');
+ document.getElementById('mDocs').textContent=state.docs.length.toLocaleString('es-PE');
+ document.getElementById('mProviders').textContent=unique.length.toLocaleString('es-PE');
+ document.getElementById('mPadron').textContent=state.padron.length.toLocaleString('es-PE');
+ document.getElementById('mMatches').textContent=[...new Set(matches.map(d=>d.ruc))].length.toLocaleString('es-PE');
+
+ const banner=document.getElementById('resultBanner');
+ if(!matches.length){
+   banner.innerHTML='<div class="alert-card success">✓ SIN COINCIDENCIAS SSCO<p>Ninguno de los RUC de tu Registro de Compras figura en el padrón SSCO. Conserva este resultado de tu control interno.</p></div>';
+   document.getElementById('impactSection').innerHTML='';
+ }else{
+   const by=groupMatches(matches);
+   const totalDocs=matches.length;
+   const renta=sum(Object.values(by).flatMap(x=>x.docs.map(d=>d.igv>0?d.base*.295:d.total*.295)));
+   const igv=sum(Object.values(by).flatMap(x=>x.docs.map(d=>d.igv)));
+   const total=renta+igv;
+   banner.innerHTML=`<div class="alert-card danger">⚠ ALERTA — ${Object.keys(by).length} proveedores SSCO detectados en tu Registro de Compras<p>Se hallaron ${totalDocs} comprobantes de proveedores calificados como SSCO, con un impacto tributario estimado de S/ ${money(total)} (crédito fiscal + renta). Estas compras podrían no otorgar crédito fiscal ni sustentar costo o gasto.</p></div>`;
+   document.getElementById('impactSection').innerHTML=`<div class="impact"><div><div class="impact-label"><span style="font-size:19px;vertical-align:-3px;margin-right:2px">💵</span>IMPACTO TRIBUTARIO TOTAL ESTIMADO</div><div class="impact-total">S/ ${money(total)}</div></div><div class="impact-side"><div><small>Impacto RENTA (29.5%)</small><strong>S/ ${money(renta)}</strong></div><div><small>Impacto IGV (crédito fiscal)</small><strong>S/ ${money(igv)}</strong></div></div></div>`;
+   renderProviders(by);
+ }
+ document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function groupMatches(matches){
+ const by={};
+ matches.forEach(d=>{
+   by[d.ruc]??={ruc:d.ruc,name:d.name,docs:[]};
+   by[d.ruc].docs.push(d);
+ });
+ return by;
+}
+function renderProviders(by){
+ const body=document.getElementById('providerRows');
+ body.innerHTML='';
+ let totalRenta=0,totalIgv=0,totalDocs=0;
+ Object.values(by).forEach((p,idx)=>{
+   const renta=sum(p.docs.map(d=>d.igv>0?d.base*.295:d.total*.295));
+   const igv=sum(p.docs.map(d=>d.igv));
+   const total=renta+igv;
+   totalRenta+=renta; totalIgv+=igv; totalDocs+=p.docs.length;
+   const pad=state.padron.find(x=>x.ruc===p.ruc);
+   const id='det'+idx;
+   body.insertAdjacentHTML('beforeend',`
+   <tr class="provider-row">
+    <td><strong>${p.ruc}</strong> <span class="badge">SSCO</span><br><small>Resolución: ${escapeHtml(pad.resolution)} · Publicación: ${pad.date}</small></td>
+    <td>${escapeHtml(p.name)}</td><td>${p.docs.length}</td>
+    <td>S/ ${money(renta)}</td><td>S/ ${money(igv)}</td>
+    <td><strong>S/ ${money(total)}</strong><br><button class="toggle" onclick="toggleDetail('${id}',this)">• Ver comprobantes</button></td>
+   </tr>
+   <tr class="detail-row" id="${id}"><td colspan="6"><div class="detail-inner">
+     <table><thead><tr><th>FECHA</th><th>COMPROBANTE</th><th>BASE IMPONIBLE</th><th>IGV</th><th>TOTAL</th></tr></thead>
+     <tbody>${p.docs.map(d=>`<tr><td>${d.date}</td><td>${docLabel(d)}</td><td>S/ ${money(d.base)}</td><td>S/ ${money(d.igv)}</td><td>S/ ${money(d.total)}</td></tr>`).join('')}</tbody></table>
+   </div></td></tr>`);
+ });
+ body.insertAdjacentHTML('beforeend',`
+   <tr class="totals-row">
+    <td colspan="2">TOTALES</td><td>${totalDocs}</td>
+    <td>S/ ${money(totalRenta)}</td><td>S/ ${money(totalIgv)}</td><td>S/ ${money(totalRenta+totalIgv)}</td>
+   </tr>`);
+}
+function toggleDetail(id,btn){
+ const row=document.getElementById(id); row.classList.toggle('open');
+ btn.textContent=row.classList.contains('open')?'• Ocultar comprobantes':'• Ver comprobantes';
+}
+async function exportExcel(){
+ if(!state.docs.length){alert('No hay datos para exportar.');return}
+ const matches=state.docs.filter(d=>state.padron.some(p=>p.ruc===d.ruc));
+ if(!matches.length){alert('No hay proveedores SSCO para exportar.');return}
+ const by=groupMatches(matches);
+ const MAROON='862022', PINK='FFEBEB';
+ const contribuyente=state.demo
+   ?`${demoContribuyente.ruc} - ${demoContribuyente.name}`
+   :(state.file?state.file.name:'—');
+ const periodo=state.demo?demoContribuyente.periodo:'—';
+
+ const wb=new ExcelJS.Workbook();
+ const ws=wb.addWorksheet('Reporte SSCO');
+ ws.columns=[{width:14},{width:32},{width:46},{width:12},{width:20},{width:12},{width:10},{width:12},{width:16},{width:14},{width:14}];
+
+ ws.mergeCells('A1:K1');
+ ws.getCell('A1').value='REPORTE DE PROVEEDORES SSCO EN EL REGISTRO DE COMPRAS';
+ ws.getCell('A1').font={bold:true,size:14,color:{argb:'FF'+MAROON}};
+
+ ws.mergeCells('A2:K2');
+ ws.getCell('A2').value=`Contribuyente: ${contribuyente}   Periodo: ${periodo}`;
+ ws.getCell('A2').font={size:11};
+
+ const headers=['RUC','RAZON SOCIAL','Resolución SSCO','Fecha','Comprobante','Base','IGV','Total','Impacto Renta (29.5%)','Impacto IGV','Impacto Total'];
+ const headerRow=ws.getRow(4);
+ headers.forEach((h,i)=>{
+  const cell=headerRow.getCell(i+1);
+  cell.value=h;
+  cell.font={bold:true,color:{argb:'FFFFFFFF'}};
+  cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+MAROON}};
+  cell.alignment={horizontal:'center',vertical:'middle'};
+ });
+ headerRow.commit();
+
+ let r=5,totalRenta=0,totalIgv=0;
+ Object.values(by).forEach(p=>{
+  const pad=state.padron.find(x=>x.ruc===p.ruc);
+  let provRenta=0,provIgv=0;
+  p.docs.forEach(d=>{
+   const renta=d.igv>0?d.base*.295:d.total*.295, igv=d.igv, tot=renta+igv;
+   provRenta+=renta; provIgv+=igv;
+   const row=ws.getRow(r);
+   row.values=[p.ruc,p.name,`${pad.resolution} · Publicación ${pad.date}`,d.date,docLabel(d),
+     Number(d.base.toFixed(2)),Number(d.igv.toFixed(2)),Number(d.total.toFixed(2)),
+     Number(renta.toFixed(2)),Number(igv.toFixed(2)),Number(tot.toFixed(2))];
+   [6,7,8,9,10,11].forEach(c=>{ const cell=row.getCell(c); cell.numFmt='#,##0.00'; cell.alignment={horizontal:'center'}; });
+   row.commit();
+   r++;
+  });
+  totalRenta+=provRenta; totalIgv+=provIgv;
+ });
+
+ const totalRow=ws.getRow(r);
+ const totalCell=totalRow.getCell(8); totalCell.value='TOTALES'; totalCell.font={bold:true};
+ [[9,totalRenta],[10,totalIgv],[11,totalRenta+totalIgv]].forEach(([c,val])=>{
+  const cell=totalRow.getCell(c);
+  cell.value=Number(val.toFixed(2)); cell.numFmt='#,##0.00';
+  cell.font={bold:true}; cell.alignment={horizontal:'center'};
+  cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+PINK}};
+ });
+ totalRow.commit();
+
+ ws.views=[{state:'frozen',ySplit:4}];
+
+ const buf=await wb.xlsx.writeBuffer();
+ const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+ const a=document.createElement('a');
+ const now=new Date();
+ a.href=URL.createObjectURL(blob);
+ a.download='informe_SSCO_'+now.toISOString().slice(0,10)+'.xlsx';
+ a.click();
+ URL.revokeObjectURL(a.href);
+}
+function exportPDF(){
+ if(!state.docs.length){alert('No hay datos para exportar.');return}
+ const matches=state.docs.filter(d=>state.padron.some(p=>p.ruc===d.ruc));
+ if(!matches.length){alert('No hay proveedores SSCO para exportar.');return}
+
+ const now=new Date();
+ const fechaInforme=formatDateEs(now)+' '+now.toLocaleTimeString('es-PE',{hour:'2-digit',minute:'2-digit'});
+ const uniqueProviders=[...new Set(state.docs.map(d=>d.ruc))].length;
+
+ const contribuyente=state.demo
+   ?`RUC ${demoContribuyente.ruc} — ${escapeHtml(demoContribuyente.name)} (dato de demostración)`
+   :(state.file?`${escapeHtml(state.file.name)} (RUC se detectará al procesar el archivo real)`:'—');
+ const periodo=state.demo?escapeHtml(demoContribuyente.periodo):'—';
+
+ document.getElementById('printSummary').innerHTML=`
+  <tr><td>Contribuyente</td><td>${contribuyente}</td></tr>
+  <tr><td>Periodo</td><td>${periodo}</td></tr>
+  <tr><td>Comprobantes analizados</td><td>${state.docs.length} (${uniqueProviders} proveedores únicos)</td></tr>
+  <tr><td>Padrón SSCO</td><td>${state.padron.length} RUC observados · actualizado al ${formatDateEs(now)}</td></tr>
+  <tr><td>Fecha del informe</td><td>${fechaInforme}</td></tr>`;
+
+ const by=groupMatches(matches);
+ const MAROON='#862022', PINK='#ffebeb', BORDER='#e2c9ca';
+ let totalRenta=0,totalIgv=0,providerBlocks='';
+ Object.values(by).forEach((p,idx)=>{
+  const pad=state.padron.find(x=>x.ruc===p.ruc);
+  let provRenta=0,provIgv=0;
+  const rows=p.docs.map(d=>{
+   const renta=d.igv>0?d.base*.295:d.total*.295, igv=d.igv, tot=renta+igv;
+   provRenta+=renta; provIgv+=igv;
+   return `<tr>
+    <td style="padding:6px 8px;border:1px solid ${BORDER}">${d.date}</td>
+    <td style="padding:6px 8px;border:1px solid ${BORDER}">${docLabel(d)}</td>
+    <td style="padding:6px 8px;border:1px solid ${BORDER};text-align:right">${money(d.base)}</td>
+    <td style="padding:6px 8px;border:1px solid ${BORDER};text-align:right">${money(d.igv)}</td>
+    <td style="padding:6px 8px;border:1px solid ${BORDER};text-align:right">${money(d.total)}</td>
+    <td style="padding:6px 8px;border:1px solid ${BORDER};text-align:right">${money(renta)}</td>
+    <td style="padding:6px 8px;border:1px solid ${BORDER};text-align:right">${money(igv)}</td>
+    <td style="padding:6px 8px;border:1px solid ${BORDER};text-align:right">${money(tot)}</td>
+   </tr>`;
+  }).join('');
+  totalRenta+=provRenta; totalIgv+=provIgv;
+  const PRINTFIX='-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact;';
+  const th=t=>`<th style="${PRINTFIX}padding:6px 8px;border:1px solid ${BORDER};background:${MAROON};color:#fff;font-size:11px;font-weight:800;text-transform:uppercase">${t}</th>`;
+  providerBlocks+=`
+   <div style="margin-top:22px">
+     <div style="font-weight:800;font-size:14px;color:#20232a">${idx+1}. ${escapeHtml(p.ruc)} — ${escapeHtml(p.name)}
+       <span style="${PRINTFIX}display:inline-block;background:${MAROON};color:#fff;border-radius:14px;padding:4px 14px;font-size:12px;font-weight:800;letter-spacing:.03em;margin-left:6px;vertical-align:middle">SSCO</span>
+     </div>
+     <div style="font-style:italic;color:#6b6f76;font-size:12px;margin:3px 0 8px">Resolución: ${escapeHtml(pad.resolution)} · Publicación: ${pad.date}</div>
+     <table style="width:100%;border-collapse:collapse;font-size:12px">
+      <thead><tr>${th('Fecha')}${th('Comprobante')}${th('Base')}${th('IGV')}${th('Total')}${th('Impacto Renta (29.5%)')}${th('Impacto IGV')}${th('Impacto Total')}</tr></thead>
+      <tbody>${rows}
+       <tr>
+        <td colspan="5" style="${PRINTFIX}padding:6px 8px;border:1px solid ${BORDER};font-weight:800;color:${MAROON};background:${PINK}">Subtotal proveedor</td>
+        <td style="${PRINTFIX}padding:6px 8px;border:1px solid ${BORDER};text-align:right;font-weight:800;color:${MAROON};background:${PINK}">${money(provRenta)}</td>
+        <td style="${PRINTFIX}padding:6px 8px;border:1px solid ${BORDER};text-align:right;font-weight:800;color:${MAROON};background:${PINK}">${money(provIgv)}</td>
+        <td style="${PRINTFIX}padding:6px 8px;border:1px solid ${BORDER};text-align:right;font-weight:800;color:${MAROON};background:${PINK}">${money(provRenta+provIgv)}</td>
+       </tr>
+      </tbody>
+     </table>
+   </div>`;
+ });
+
+ const PRINTFIX='-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact;';
+ const summaryBlock=`
+   <table style="width:100%;border-collapse:collapse;margin-top:26px;font-size:13px;border:2px solid ${MAROON}">
+    <tr>
+     <td style="padding:9px 13px;border:1px solid ${MAROON}">Impacto RENTA (base × 29.5%)</td>
+     <td style="padding:9px 13px;border:1px solid ${MAROON};text-align:right;font-weight:800;color:${MAROON}">S/ ${money(totalRenta)}</td>
+    </tr>
+    <tr>
+     <td style="padding:9px 13px;border:1px solid ${MAROON}">Impacto IGV (crédito fiscal)</td>
+     <td style="padding:9px 13px;border:1px solid ${MAROON};text-align:right;font-weight:800;color:${MAROON}">S/ ${money(totalIgv)}</td>
+    </tr>
+    <tr>
+     <td style="${PRINTFIX}padding:12px 13px;border:1px solid #fff;background:${MAROON};color:#fff;font-weight:800;font-size:16px">IMPACTO TRIBUTARIO TOTAL ESTIMADO</td>
+     <td style="${PRINTFIX}padding:12px 13px;border:1px solid #fff;background:${MAROON};color:#fff;font-weight:800;font-size:16px;text-align:right">S/ ${money(totalRenta+totalIgv)}</td>
+    </tr>
+   </table>`;
+
+ document.getElementById('printResults').innerHTML=
+   document.getElementById('resultBanner').innerHTML+
+   '<div class="section-title" style="margin-top:22px">🚩 PROVEEDORES SSCO ENCONTRADOS</div>'+
+   providerBlocks+
+   summaryBlock;
+
+ window.print();
+}
+function sum(a){return a.reduce((x,y)=>x+y,0)}
+function money(n){return Number(n).toLocaleString('es-PE',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+</script>
+</body>
+</html>
