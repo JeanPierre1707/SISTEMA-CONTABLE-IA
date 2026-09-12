@@ -1,0 +1,7 @@
+.env
+.env.backup
+node_modules/
+*.log
+*.xml
+*.zip
+rce-*/

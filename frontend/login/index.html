@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA CONTABLE IA - Acceso</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-box {
+            width: 360px;
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.12);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        #mensaje {
+            text-align: center;
+            margin-top: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-box">
+
+        <h1>SISTEMA CONTABLE IA</h1>
+
+        <div class="subtitle">
+            Acceso al sistema
+        </div>
+
+        <form id="loginForm">
+
+            <label for="usuario">Usuario</label>
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Ingrese su usuario"
+                required
+            >
+
+            <label for="password">Contraseña</label>
+            <input
+                type="password"
+                id="password"
+                placeholder="Ingrese su contraseña"
+                required
+            >
+
+            <button type="submit">
+                Ingresar
+            </button>
+
+        </form>
+
+        <div id="mensaje"></div>
+
+    </div>
+<script>
+    document.getElementById("loginForm").addEventListener("submit", async function(event) {
+        event.preventDefault();
+
+        const usuario = document.getElementById("usuario").value;
+        const password = document.getElementById("password").value;
+        const mensaje = document.getElementById("mensaje");
+
+        try {
+            const respuesta = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    usuario: usuario,
+                    password: password
+                })
+            });
+
+            const resultado = await respuesta.json();
+
+            mensaje.textContent = resultado.mensaje;
+
+            if (resultado.success) {
+                mensaje.style.color = "green";
+                 window.location.href = "/menu/";
+            } else {
+                mensaje.style.color = "red";
+            }
+
+        } catch (error) {
+            mensaje.textContent = "No se pudo conectar con el servidor";
+            mensaje.style.color = "red";
+        }
+    });
+</script>
+</body>
+</html>
