@@ -3,10 +3,385 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA CONTABLE IA</title>
-    <meta http-equiv="refresh" content="0; url=frontend/ssco/SSCO_Validador_Proveedores_Prototipo_CORREGIDO.html">
+
+    <title>NEXORA | Inteligencia contable y tributaria</title>
+
+    <meta
+        name="description"
+        content="NEXORA - Inteligencia contable y tributaria para empresas."
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            padding: 22px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            border-bottom: 1px solid #e8ebf2;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #173f8a;
+        }
+
+        .logo span {
+            font-weight: 400;
+        }
+
+        .header-button {
+            text-decoration: none;
+            color: #173f8a;
+            font-weight: 600;
+            border: 1px solid #173f8a;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .header-button:hover {
+            background: #173f8a;
+            color: #ffffff;
+        }
+
+        .hero {
+            min-height: calc(100vh - 82px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 7%;
+        }
+
+        .hero-container {
+            width: 100%;
+            max-width: 1150px;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 70px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(42px, 6vw, 72px);
+            line-height: 1;
+            margin-bottom: 18px;
+            color: #132f63;
+            letter-spacing: -2px;
+        }
+
+        .hero-text h2 {
+            font-size: 25px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            color: #45536b;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            line-height: 1.7;
+            max-width: 620px;
+            color: #657086;
+            margin-bottom: 35px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 14px 27px;
+            border-radius: 9px;
+            font-size: 16px;
+            font-weight: 700;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: #173f8a;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: #102f69;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #ffffff;
+            color: #173f8a;
+            border: 1px solid #cdd5e3;
+        }
+
+        .btn-secondary:hover {
+            border-color: #173f8a;
+        }
+
+        .visual {
+            display: flex;
+            justify-content: center;
+        }
+
+        .dashboard-card {
+            width: 100%;
+            max-width: 410px;
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 28px;
+            box-shadow: 0 18px 50px rgba(27, 49, 87, 0.12);
+            border: 1px solid #e7ebf2;
+        }
+
+        .dashboard-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .dashboard-title {
+            font-weight: 700;
+            color: #23375d;
+        }
+
+        .status {
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            background: #e8f7ef;
+            color: #177245;
+            font-weight: 700;
+        }
+
+        .metric {
+            padding: 18px;
+            background: #f7f9fc;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .metric-label {
+            font-size: 13px;
+            color: #778197;
+            margin-bottom: 7px;
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1b3565;
+        }
+
+        .metric-small {
+            font-size: 13px;
+            color: #6c778b;
+            margin-top: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #8a93a5;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 45px;
+            }
+
+            .hero {
+                padding-top: 45px;
+            }
+
+            .visual {
+                order: 2;
+            }
+
+            .hero-text {
+                text-align: center;
+            }
+
+            .hero-text p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 500px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .header-button {
+                padding: 8px 14px;
+                font-size: 14px;
+            }
+
+            .hero {
+                padding: 40px 5%;
+            }
+
+            .hero-text h1 {
+                font-size: 48px;
+            }
+
+            .hero-text h2 {
+                font-size: 21px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <p>Cargando SISTEMA CONTABLE IA...</p>
+
+    <header>
+        <div class="logo">
+            NEXORA<span>®</span>
+        </div>
+
+        <a href="/login" class="header-button">
+            Ingresar
+        </a>
+    </header>
+
+    <main class="hero">
+
+        <div class="hero-container">
+
+            <section class="hero-text">
+
+                <h1>NEXORA</h1>
+
+                <h2>
+                    Inteligencia contable y tributaria
+                </h2>
+
+                <p>
+                    Una nueva forma de gestionar la información contable
+                    y tributaria de tu empresa, integrando automatización,
+                    análisis y herramientas inteligentes en un solo lugar.
+                </p>
+
+                <div class="buttons">
+
+                    <a href="/login" class="btn btn-primary">
+                        Ingresar
+                    </a>
+
+                    <a href="/login" class="btn btn-secondary">
+                        Crear cuenta
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <section class="visual">
+
+                <div class="dashboard-card">
+
+                    <div class="dashboard-top">
+
+                        <div class="dashboard-title">
+                            Panel NEXORA
+                        </div>
+
+                        <div class="status">
+                            Sistema activo
+                        </div>
+
+                    </div>
+
+                    <div class="metric">
+
+                        <div class="metric-label">
+                            SIRE
+                        </div>
+
+                        <div class="metric-value">
+                            Conectado
+                        </div>
+
+                        <div class="metric-small">
+                            Gestión de comprobantes electrónicos
+                        </div>
+
+                    </div>
+
+                    <div class="metric">
+
+                        <div class="metric-label">
+                            SSCO
+                        </div>
+
+                        <div class="metric-value">
+                            Validación
+                        </div>
+
+                        <div class="metric-small">
+                            Detección preventiva de contingencias
+                        </div>
+
+                    </div>
+
+                    <div class="metric">
+
+                        <div class="metric-label">
+                            Análisis tributario
+                        </div>
+
+                        <div class="metric-value">
+                            Inteligente
+                        </div>
+
+                        <div class="metric-small">
+                            Información para la toma de decisiones
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+    <footer>
+        © 2026 NEXORA · Inteligencia contable y tributaria
+    </footer>
+
 </body>
 </html>

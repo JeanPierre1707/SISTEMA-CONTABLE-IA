@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, "..", "frontend")));
 
 // Página de inicio
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "..", "frontend", "login", "index.html"));
+    res.sendFile(path.join(__dirname, "..", "index.html"));
 });
 app.get("/login", (req, res) => { 
     res.sendFile(path.join(__dirname, "..", "frontend", "login", "index.html")); 

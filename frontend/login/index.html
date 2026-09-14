@@ -3,150 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA CONTABLE IA - Acceso</title>
+
+    <title>NEXORA | Acceso</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(91, 63, 211, 0.35), transparent 30%),
+                radial-gradient(circle at 85% 80%, rgba(0, 196, 255, 0.20), transparent 30%),
+                linear-gradient(135deg, #07152f, #101b46 55%, #17205a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #172033;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        .brand {
+            text-align: center;
+            color: white;
+            margin-bottom: 22px;
+        }
+
+        .brand-name {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            margin-bottom: 7px;
+        }
+
+        .brand-name span {
+            color: #4ddcff;
+        }
+
+        .brand-subtitle {
+            font-size: 14px;
+            color: #cbd5f5;
+            letter-spacing: 0.5px;
         }
 
         .login-box {
-            width: 360px;
-            background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.12);
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 20px;
+            padding: 38px 35px;
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.35),
+                0 0 0 1px rgba(255, 255, 255, 0.15);
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 10px;
+            margin: 0 0 8px;
+            font-size: 25px;
+            color: #172033;
         }
 
         .subtitle {
             text-align: center;
-            color: #666;
+            color: #68738a;
             margin-bottom: 30px;
+            font-size: 14px;
         }
 
         label {
             display: block;
-            margin-bottom: 6px;
-            font-weight: bold;
+            margin-bottom: 7px;
+            font-weight: 700;
+            color: #26324a;
+            font-size: 14px;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 18px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 7px;
+            padding: 13px 14px;
+            margin-bottom: 19px;
+            border: 1px solid #d7ddea;
+            border-radius: 9px;
             font-size: 15px;
+            outline: none;
+            background: #f8faff;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #5b3fd3;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(91, 63, 211, 0.12);
         }
 
         button {
             width: 100%;
-            padding: 13px;
+            padding: 14px;
             border: none;
-            border-radius: 7px;
-            background: #2563eb;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #5036c7, #2678e8);
             color: white;
             font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(67, 76, 190, 0.25);
         }
 
         button:hover {
-            background: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 11px 25px rgba(67, 76, 190, 0.35);
         }
 
         #mensaje {
             text-align: center;
             margin-top: 18px;
+            min-height: 20px;
             font-weight: bold;
+            font-size: 14px;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 22px;
+            color: #5b3fd3;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .back:hover {
+            color: #2678e8;
+        }
+
+        .security {
+            text-align: center;
+            margin-top: 18px;
+            color: #8a94a8;
+            font-size: 11px;
+        }
+
+        @media (max-width: 480px) {
+            .login-box {
+                padding: 30px 24px;
+            }
+
+            .brand-name {
+                font-size: 29px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="login-box">
+    <div class="login-container">
 
-        <h1>SISTEMA CONTABLE IA</h1>
-
-        <div class="subtitle">
-            Acceso al sistema
+        <div class="brand">
+            <div class="brand-name">NEX<span>ORA</span></div>
+            <div class="brand-subtitle">
+                Inteligencia contable y tributaria
+            </div>
         </div>
 
-        <form id="loginForm">
+        <div class="login-box">
 
-            <label for="usuario">Usuario</label>
-            <input
-                type="text"
-                id="usuario"
-                placeholder="Ingrese su usuario"
-                required
-            >
+            <h1>Bienvenido</h1>
 
-            <label for="password">Contraseña</label>
-            <input
-                type="password"
-                id="password"
-                placeholder="Ingrese su contraseña"
-                required
-            >
+            <div class="subtitle">
+                Ingresa a tu cuenta para continuar
+            </div>
 
-            <button type="submit">
-                Ingresar
-            </button>
+            <form id="loginForm">
 
-        </form>
+                <label for="usuario">Usuario</label>
 
-        <div id="mensaje"></div>
+                <input
+                    type="text"
+                    id="usuario"
+                    placeholder="Ingrese su usuario"
+                    required
+                >
+
+                <label for="password">Contraseña</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Ingrese su contraseña"
+                    required
+                >
+
+                <button type="submit">
+                    Ingresar
+                </button>
+
+            </form>
+
+            <div id="mensaje"></div>
+
+            <a href="/" class="back">
+                ← Volver a NEXORA
+            </a>
+
+            <div class="security">
+                Acceso protegido · NEXORA
+            </div>
+
+        </div>
 
     </div>
-<script>
-    document.getElementById("loginForm").addEventListener("submit", async function(event) {
-        event.preventDefault();
 
-        const usuario = document.getElementById("usuario").value;
-        const password = document.getElementById("password").value;
-        const mensaje = document.getElementById("mensaje");
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async function(event) {
 
-        try {
-            const respuesta = await fetch("/api/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    usuario: usuario,
-                    password: password
-                })
-            });
+            event.preventDefault();
 
-            const resultado = await respuesta.json();
+            const usuario = document.getElementById("usuario").value;
+            const password = document.getElementById("password").value;
+            const mensaje = document.getElementById("mensaje");
 
-            mensaje.textContent = resultado.mensaje;
+            try {
 
-            if (resultado.success) {
-                mensaje.style.color = "green";
-                 window.location.href = "/menu/";
-            } else {
-                mensaje.style.color = "red";
+                const respuesta = await fetch("/api/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        usuario: usuario,
+                        password: password
+                    })
+                });
+
+                const resultado = await respuesta.json();
+
+                mensaje.textContent = resultado.mensaje;
+
+                if (resultado.success) {
+
+                    mensaje.style.color = "#159447";
+
+                    window.location.href = "/menu/";
+
+                } else {
+
+                    mensaje.style.color = "#d23b4a";
+
+                }
+
+            } catch (error) {
+
+                mensaje.textContent =
+                    "No se pudo conectar con el servidor";
+
+                mensaje.style.color = "#d23b4a";
             }
 
-        } catch (error) {
-            mensaje.textContent = "No se pudo conectar con el servidor";
-            mensaje.style.color = "red";
-        }
-    });
-</script>
+        });
+    </script>
+
 </body>
 </html>
