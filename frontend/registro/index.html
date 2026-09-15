@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NEXORA | Crear cuenta</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    font-family:Arial, Helvetica, sans-serif;
+    color:#f5f9ff;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(75,190,225,.25), transparent 30%),
+        radial-gradient(circle at 85% 80%, rgba(105,120,235,.22), transparent 32%),
+        linear-gradient(135deg,#102d48,#174667,#1d4268);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+    overflow-x:hidden;
+}
+
+/* Fondo */
+.grid{
+    position:fixed;
+    inset:0;
+    opacity:.13;
+    pointer-events:none;
+    background-image:
+        linear-gradient(rgba(255,255,255,.12) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.12) 1px,transparent 1px);
+    background-size:50px 50px;
+}
+
+.glow{
+    position:fixed;
+    width:300px;
+    height:300px;
+    border-radius:50%;
+    filter:blur(80px);
+    pointer-events:none;
+}
+
+.glow.one{
+    background:rgba(67,207,239,.16);
+    left:-120px;
+    top:-100px;
+}
+
+.glow.two{
+    background:rgba(111,111,238,.15);
+    right:-100px;
+    bottom:-100px;
+}
+
+/* Contenedor */
+.wrapper{
+    position:relative;
+    z-index:2;
+    width:min(1000px,100%);
+    display:grid;
+    grid-template-columns:1fr 430px;
+    gap:45px;
+    align-items:center;
+}
+
+/* Información izquierda */
+.info{
+    padding:20px 0;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    margin-bottom:35px;
+    font-size:23px;
+    font-weight:800;
+    letter-spacing:2px;
+}
+
+.logo-icon{
+    width:40px;
+    height:40px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#61dcff,#728aff);
+    color:#082238;
+    box-shadow:0 10px 28px rgba(65,190,255,.25);
+}
+
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    color:#8ce7ff;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:1.8px;
+    margin-bottom:18px;
+}
+
+.badge span{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#65ddff;
+    box-shadow:0 0 12px #65ddff;
+}
+
+.info h1{
+    font-size:clamp(42px,6vw,70px);
+    line-height:1;
+    letter-spacing:-3px;
+    margin-bottom:22px;
+}
+
+.gradient{
+    background:linear-gradient(90deg,#ffffff,#a9eaff,#aeb8ff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.info p{
+    max-width:520px;
+    color:#c9d9e8;
+    font-size:16px;
+    line-height:1.7;
+    margin-bottom:28px;
+}
+
+.features{
+    display:grid;
+    gap:14px;
+}
+
+.feature{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#dbe7f3;
+    font-size:14px;
+}
+
+.feature-icon{
+    width:30px;
+    height:30px;
+    border-radius:9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(115,220,255,.12);
+    border:1px solid rgba(115,220,255,.14);
+    color:#7de3ff;
+    font-size:13px;
+}
+
+.back-home{
+    text-align:center;
+    margin-top:14px;
+}
+
+.back-home a{
+    color:#8edfff;
+    text-decoration:none;
+    font-size:12px;
+    font-weight:600;
+}
+
+.back-home a:hover{
+    color:#ffffff;
+    text-decoration:underline;
+}
+
+/* Tarjeta */
+.card{
+    padding:34px;
+    border-radius:27px;
+    background:rgba(21,52,79,.82);
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.28),
+        inset 0 1px rgba(255,255,255,.10);
+    backdrop-filter:blur(20px);
+}
+
+.card-header{
+    margin-bottom:25px;
+}
+
+.card-header h2{
+    font-size:27px;
+    margin-bottom:8px;
+}
+
+.card-header p{
+    color:#b9ccdf;
+    font-size:13px;
+    line-height:1.5;
+}
+
+/* Formulario */
+.form-group{
+    margin-bottom:16px;
+}
+
+label{
+    display:block;
+    color:#dbe7f3;
+    font-size:12px;
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+input{
+    width:100%;
+    height:48px;
+    padding:0 14px;
+    border-radius:11px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.07);
+    color:white;
+    outline:none;
+    font-size:14px;
+    transition:.2s;
+}
+
+input::placeholder{
+    color:#8299ad;
+}
+
+input:focus{
+    border-color:rgba(100,220,255,.65);
+    background:rgba(255,255,255,.10);
+    box-shadow:0 0 0 3px rgba(90,210,255,.09);
+}
+
+/* Botón */
+.submit{
+    width:100%;
+    height:50px;
+    margin-top:7px;
+    border:0;
+    border-radius:12px;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:800;
+    color:#082238;
+    background:linear-gradient(135deg,#70e2ff,#8ca7ff);
+    box-shadow:0 12px 28px rgba(70,180,255,.24);
+    transition:.25s;
+}
+
+.submit:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 35px rgba(70,180,255,.35);
+}
+
+.login{
+    text-align:center;
+    margin-top:21px;
+    font-size:13px;
+    color:#aebfd0;
+}
+
+.login a{
+    color:#82e2ff;
+    text-decoration:none;
+    font-weight:700;
+}
+
+.login a:hover{
+    text-decoration:underline;
+}
+
+.security{
+    text-align:center;
+    margin-top:20px;
+    padding-top:18px;
+    border-top:1px solid rgba(255,255,255,.08);
+    color:#8299ad;
+    font-size:10px;
+}
+
+/* Responsive */
+@media(max-width:800px){
+    body{
+        padding:20px;
+    }
+
+    .wrapper{
+        grid-template-columns:1fr;
+        max-width:500px;
+    }
+
+    .info{
+        text-align:center;
+    }
+
+    .logo{
+        justify-content:center;
+    }
+
+    .info p{
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .features{
+        justify-items:center;
+    }
+
+    .card{
+        padding:28px;
+    }
+}
+
+@media(max-width:480px){
+    .info h1{
+        font-size:45px;
+    }
+
+    .card{
+        padding:23px;
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="grid"></div>
+
+<div class="glow one"></div>
+<div class="glow two"></div>
+
+<div class="wrapper">
+
+<!-- PRESENTACIÓN -->
+
+<section class="info">
+
+    <div class="logo">
+        <div class="logo-icon">N</div>
+        NEXORA
+    </div>
+
+    <div class="badge">
+        <span></span>
+        ACCESO INTELIGENTE
+    </div>
+
+    <h1>
+        Tu información.<br>
+        <span class="gradient">Una nueva forma.</span>
+    </h1>
+
+    <p>
+        Crea tu acceso a NEXORA y descubre una nueva forma
+        de gestionar información contable y tributaria desde
+        una plataforma inteligente.
+    </p>
+
+    <div class="features">
+
+        <div class="feature">
+            <div class="feature-icon">✓</div>
+            Gestión contable inteligente
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">✓</div>
+            Automatización de procesos
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">✓</div>
+            Información organizada y centralizada
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FORMULARIO -->
+
+<section class="card">
+
+    <div class="card-header">
+
+        <h2>Crear cuenta</h2>
+
+        <p>
+            Crea tu acceso para comenzar a utilizar NEXORA.
+        </p>
+
+    </div>
+
+    <form id="registroForm">
+
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input
+                type="text"
+                id="nombre"
+                placeholder="Ingresa tu nombre"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="usuario">Usuario</label>
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Crea tu usuario"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input
+                type="password"
+                id="password"
+                placeholder="Crea una contraseña"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="confirmar">Confirmar contraseña</label>
+            <input
+                type="password"
+                id="confirmar"
+                placeholder="Repite tu contraseña"
+                required
+            >
+        </div>
+
+        <button type="submit" class="submit">
+            Crear cuenta
+        </button>
+
+    </form>
+
+        <div class="login"> 
+    ¿Ya tienes una cuenta? 
+    <a href="/login">Ingresar</a> 
+</div>
+
+<div class="back-home">
+    <a href="/">← Volver a NEXORA</a>
+</div>
+
+<div class="security"> 
+    🔒 Tu información será gestionada de forma segura. 
+</div>
+
+</section>
+
+</div>
+
+<script>
+
+document.getElementById("registroForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const password = document.getElementById("password").value;
+    const confirmar = document.getElementById("confirmar").value;
+
+    if(password !== confirmar){
+        alert("Las contraseñas no coinciden.");
+        return;
+    }
+
+    alert("Formulario correcto. Estamos preparando tu cuenta.");
+
+});
+
+</script>
+
+</body>
+</html>

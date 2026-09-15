@@ -37,15 +37,22 @@ app.use("/api", sireRouter);
 // Servir los archivos del frontend
 app.use(express.static(path.join(__dirname, "..", "frontend")));
 
-// Página de inicio
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "..", "index.html"));
-});
-app.get("/login", (req, res) => { 
-    res.sendFile(path.join(__dirname, "..", "frontend", "login", "index.html")); 
+// Página de inicio 
+app.get("/", (req, res) => { 
+    res.sendFile(path.join(__dirname, "..", "index.html")); 
 });
 
-// Iniciar servidor
-app.listen(PORT, () => {
-    console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
+app.get("/login", (req, res) => {  
+    res.sendFile(path.join(__dirname, "..", "frontend", "login", "index.html"));  
+});
+
+app.get("/registro", (req, res) => {
+    res.sendFile(
+        path.join(__dirname, "..", "frontend", "registro", "index.html")
+    );
+});
+
+// Iniciar servidor 
+app.listen(PORT, () => { 
+    console.log(`Servidor ejecutándose en http://localhost:${PORT}`); 
 });
