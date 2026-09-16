@@ -5,6 +5,764 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Verificador SSCO - Cruce con Registro de Compras SIRE</title>
 <style>
+.nexora-nav{
+    height:68px;
+    padding:0 28px;
+    display:flex;
+    align-items:center;
+    gap:20px;
+    background:rgba(255,255,255,.94);
+    border-bottom:1px solid #e2e8f0;
+    box-shadow:0 4px 18px rgba(15,23,42,.06);
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.nexora-brand{
+    font-size:20px;
+    font-weight:800;
+    letter-spacing:.5px;
+    color:#2563eb;
+    white-space:nowrap;
+}
+
+.nexora-brand span{
+    font-size:10px;
+    vertical-align:top;
+    margin-left:2px;
+}
+
+.nexora-links{
+    display:flex;
+    align-items:center;
+    gap:4px;
+    margin-left:auto;
+}
+
+.nexora-links a{
+    text-decoration:none;
+    color:#64748b;
+    font-size:12px;
+    font-weight:700;
+    padding:9px 12px;
+    border-radius:10px;
+    transition:.2s ease;
+}
+
+.nexora-links a:hover{
+    color:#2563eb;
+    background:#eff6ff;
+}
+
+.nexora-links a.active{
+    color:#2563eb;
+    background:#dbeafe;
+}
+
+.nexora-status{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#64748b;
+    font-size:11px;
+    font-weight:600;
+    white-space:nowrap;
+}
+
+.nexora-status span{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#22c55e;
+    box-shadow:0 0 0 4px #dcfce7;
+}
+
+@media(max-width:1000px){
+
+    .nexora-nav{
+        padding:0 16px;
+    }
+
+    .nexora-status{
+        display:none;
+    }
+
+    .nexora-links a{
+        padding:8px 7px;
+        font-size:10px;
+    }
+}
+/* =========================================
+   CONSULTA RCE · NEXORA
+========================================= */
+
+.rce-panel{
+    margin-top:28px;
+    padding:26px;
+    background:rgba(255,255,255,.96);
+    border:1px solid #dbeafe;
+    border-radius:22px;
+    box-shadow:0 12px 35px rgba(37,99,235,.08);
+}
+
+.rce-panel-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:24px;
+}
+
+.rce-eyebrow{
+    font-size:11px;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:#2563eb;
+    margin-bottom:6px;
+}
+
+.rce-panel h2{
+    margin:0;
+    font-size:24px;
+    color:#0f172a;
+}
+
+.rce-panel-header h2{
+    font-size:20px;
+    margin:0 0 7px;
+}
+
+.rce-panel-header p{
+    margin:0;
+    color:var(--muted);
+}
+
+.rce-sync-status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 13px;
+    border-radius:999px;
+    background:#f0fdf4;
+    color:#15803d;
+    font-size:11px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.rce-status-dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#22c55e;
+    box-shadow:0 0 0 4px #dcfce7;
+}
+
+.rce-selector{
+    display:flex;
+    align-items:flex-end;
+    gap:14px;
+    padding:18px;
+    background:#f8fafc;
+    border:1px solid #e2e8f0;
+    border-radius:16px;
+}
+
+.rce-selector label{
+    display:block;
+    margin-bottom:7px;
+    font-size:12px;
+    font-weight:800;
+    color:#475569;
+}
+
+.rce-selector select{
+    min-width:180px;
+    height:44px;
+    padding:0 14px;
+    border:1px solid #cbd5e1;
+    border-radius:10px;
+    background:white;
+    color:#0f172a;
+    font-size:14px;
+    font-weight:700;
+    outline:none;
+}
+
+.rce-selector select:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 3px #dbeafe;
+}
+
+.btn-consultar-rce{
+    height:44px;
+    padding:0 20px;
+    border:0;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    font-size:12px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.2s ease;
+}
+
+.btn-consultar-rce:hover{
+    transform:translateY(-1px);
+    box-shadow:0 8px 18px rgba(37,99,235,.22);
+}
+
+.rce-resultados{
+    margin-top:20px;
+}
+
+.rce-empty{
+    padding:22px;
+    text-align:center;
+    border:1px dashed #cbd5e1;
+    border-radius:14px;
+    color:#64748b;
+    font-size:13px;
+    background:#f8fafc;
+}
+
+/* =========================================
+   TARJETA DE PERÍODO RCE
+========================================= */
+
+.rce-period-card{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+    width:100%;
+    padding:26px;
+    background:linear-gradient(135deg,#f0fdf4,#ffffff);
+    border:1px solid #bbf7d0;
+    border-radius:20px;
+    box-shadow:0 10px 28px rgba(22,101,52,.10);
+    transition:.25s ease;
+    box-sizing:border-box;
+}
+
+.rce-period-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 34px rgba(22,101,52,.14);
+}
+
+.rce-period-card:hover{
+    border-color:#bfdbfe;
+    box-shadow:0 10px 24px rgba(37,99,235,.09);
+    transform:translateY(-1px);
+}
+
+.rce-period-main{
+    display:flex;
+    align-items:center;
+    gap:13px;
+    min-width:230px;
+}
+
+.rce-period-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:46px;
+    height:46px;
+    flex-shrink:0;
+    border-radius:12px;
+    background:#166534;
+    color:#ffffff;
+    font-size:13px;
+    font-weight:900;
+    letter-spacing:.3px;
+}
+
+.rce-period-title{
+    font-size:15px;
+    font-weight:800;
+    color:#0f172a;
+}
+
+.rce-period-subtitle{
+    margin-top:3px;
+    font-size:11px;
+    color:#64748b;
+}
+
+.rce-status-group{
+    display:flex;
+    gap:10px;
+    flex:1;
+}
+
+.rce-status-box{
+    width:100%;
+    padding:16px 20px;
+    border:1px solid #86efac;
+    border-radius:15px;
+    background:#dcfce7;
+    box-sizing:border-box;
+}
+
+.rce-status-info{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    width:100%;
+    max-width:900px;
+    margin:0 auto;
+}
+
+.rce-status-card{
+    min-height:72px;
+    padding:11px 14px;
+    border:1px solid #15803d;
+    border-radius:12px;
+    background:#249447;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    box-sizing:border-box;
+}
+
+.rce-status-card-label{
+    margin-bottom:5px;
+    color:#ffffff;
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.6px;
+    text-transform:uppercase;
+}
+
+.rce-status-card-value{
+    color:#ffffff;
+    font-size:16px;
+    font-weight:900;
+    line-height:1.1;
+}
+
+.rce-presentado{
+    color:#ffffff;
+}
+
+.rce-no-presentado{
+    color:#ffdddd;
+}
+
+.rce-status-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:5px;
+}
+
+.rce-status-label{
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.8px;
+    color:#166534;
+}
+
+.rce-status-check{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    background:#22c55e;
+    color:#ffffff;
+    font-size:15px;
+    font-weight:900;
+}
+
+.rce-status-main{
+    font-size:25px;
+    line-height:1.1;
+    font-weight:950;
+    letter-spacing:.4px;
+    margin-top:3px;
+}
+
+.rce-presentado{
+    color:#15803d;
+}
+
+.rce-no-presentado{
+    color:#b91c1c;
+}
+
+.rce-status-description{
+    display:none;
+}
+
+.rce-status-label{
+    display:block;
+    margin-bottom:4px;
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.05em;
+    color:#64748b;
+}
+
+.rce-status-box strong{
+    font-size:12px;
+    font-weight:900;
+}
+
+.rce-presentado{
+    color:#15803d;
+}
+
+.rce-pendiente{
+    color:#64748b;
+}
+
+.btn-sincronizar-rce{
+    min-height:50px;
+    align-self:flex-end;
+    padding:0 26px;
+    border:0;
+    border-radius:12px;
+    background:#2563eb;
+    color:#ffffff;
+    font-size:13px;
+    font-weight:900;
+    letter-spacing:.3px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:.2s ease;
+    box-shadow:0 5px 12px rgba(37,99,235,.18);
+}
+
+.btn-sincronizar-rce:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+}
+
+.rce-card-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    width:100%;
+    gap:20px;
+}
+
+.rce-brand{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+
+.rce-card-kicker{
+    margin-bottom:5px;
+    color:#166534;
+    font-size:15px;
+    font-weight:900;
+    letter-spacing:.4px;
+}
+
+.rce-period-title{
+    color:#64748b;
+    font-size:13px;
+    font-weight:700;
+}
+
+.rce-period-value{
+    margin-top:2px;
+    color:#0f172a;
+    font-size:18px;
+    font-weight:900;
+    letter-spacing:.1px;
+}
+
+.rce-sunat-badge{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    padding:8px 12px;
+    border:1px solid #86efac;
+    border-radius:999px;
+    background:#dcfce7;
+    color:#15803d;
+    font-size:11px;
+    font-weight:900;
+    white-space:nowrap;
+}
+
+.rce-period-info{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    width:100%;
+}
+
+.rce-info-item{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    padding:13px 15px;
+    border:1px solid #d1fae5;
+    border-radius:12px;
+    background:#ffffff;
+    box-sizing:border-box;
+}
+
+.rce-info-item span{
+    color:#64748b;
+    font-size:11px;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+}
+
+.rce-info-item strong{
+    color:#166534;
+    font-size:17px;
+    font-weight:950;
+}
+
+.rce-info-divider{
+    width:1px;
+    height:38px;
+    background:#bbf7d0;
+}
+
+.btn-sincronizar-rce:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+}
+
+.btn-sincronizar-rce:not(:disabled):hover{
+    transform:translateY(-1px);
+    box-shadow:0 7px 16px rgba(37,99,235,.25);
+}
+.btn-sincronizar-rce:hover{
+    background:#1d4ed8;
+    transform:translateY(-1px);
+    box-shadow:0 7px 16px rgba(37,99,235,.22);
+}
+
+/* =========================================
+   HISTORIAL RCE · NEXORA
+========================================= */
+
+.rce-history{
+    margin-top:40px;
+    padding:26px;
+    background:rgba(255,255,255,.96);
+    border:1px solid #dbeafe;
+    border-radius:22px;
+    box-shadow:0 12px 35px rgba(37,99,235,.08);
+}
+
+.rce-history-header{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:20px;
+    margin-bottom:28px;
+    padding-bottom:4px;
+}
+
+.rce-history .rce-eyebrow{
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:#2563eb;
+    margin-bottom:7px;
+}
+
+.rce-history h2{
+    margin:0;
+    font-size:24px;
+    font-weight:900;
+    color:#0f172a;
+}
+
+.rce-history-header p{
+    margin:8px 0 0;
+    color:#64748b;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.rce-history-badge{
+    padding:10px 15px;
+    border-radius:999px;
+    background:#eff6ff;
+    color:#2563eb;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:.05em;
+    white-space:nowrap;
+}
+
+
+/* TABLA */
+
+.rce-history-table-wrap{
+    margin-top:12px;
+    border:1px solid #dbe3ef;
+    border-radius:18px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    background:#fff;
+    box-shadow:0 7px 20px rgba(15,23,42,.06);
+}
+
+.rce-history-table{
+    width:100%;
+    border-collapse:separate;
+    border-spacing:0;
+    font-size:12px;
+}
+
+.rce-history-table thead th{
+    padding:15px 13px;
+    background:#f8fafc;
+    border-bottom:1px solid #e2e8f0;
+    color:#475569;
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:.04em;
+    text-align:left;
+    white-space:nowrap;
+}
+
+.rce-history-table tbody td{
+    padding:16px 13px;
+    border-bottom:1px solid #f1f5f9;
+    color:#475569;
+    vertical-align:middle;
+    white-space:nowrap;
+}
+
+.rce-history-table th:last-child,
+.rce-history-table td:last-child{
+    width:120px;
+    min-width:120px;
+}
+
+.rce-history-table tbody tr:last-child td{
+    border-bottom:none;
+}
+
+.rce-history-table tbody tr:hover{
+    background:#f8fbff;
+}
+
+.rce-history-table strong{
+    color:#0f172a;
+    font-weight:900;
+}
+
+.rce-history-table small{
+    color:#94a3b8;
+    font-size:10px;
+}
+
+
+/* ESTADOS */
+
+.history-status{
+    display:inline-flex;
+    align-items:center;
+    padding:6px 10px;
+    border-radius:999px;
+    font-size:10px;
+    font-weight:900;
+}
+
+.history-status.presentado{
+    color:#15803d;
+    background:#dcfce7;
+}
+
+.history-status.sincronizado{
+    color:#15803d;
+    background:#dcfce7;
+}
+
+.history-observed{
+    display:inline-flex;
+    min-width:25px;
+    height:25px;
+    align-items:center;
+    justify-content:center;
+    border-radius:8px;
+    color:#dc2626;
+    background:#fee2e2;
+    font-weight:900;
+}
+
+
+/* VER DETALLES */
+
+.btn-ver-detalles{
+    min-width:105px;
+    padding:9px 14px;
+    border:1px solid #bfdbfe;
+    border-radius:10px;
+    background:#eff6ff;
+    color:#2563eb;
+    font-size:11px;
+    font-weight:900;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:.2s ease;
+}
+
+.btn-ver-detalles:hover{
+    background:#dbeafe;
+    transform:translateY(-1px);
+    box-shadow:0 5px 12px rgba(37,99,235,.12);
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .rce-history{
+        padding:18px;
+    }
+
+    .rce-history-table-wrap{
+        overflow-x:auto;
+    }
+
+    .rce-history-table{
+        min-width:1100px;
+    }
+}
+
+@media(max-width:700px){
+
+    .rce-panel{
+        padding:18px;
+    }
+
+    .rce-panel-header{
+        flex-direction:column;
+    }
+
+    .rce-selector{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .rce-selector select,
+    .btn-consultar-rce{
+        width:100%;
+    }
+}  
 :root{
   --bg:#fbeef1; --card:#fff; --text:#24262b; --muted:#727780;
   --border:#e2e5e9; --green:#237a4b; --green-bg:#e9f7ef;
@@ -110,11 +868,216 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust
 </style>
 </head>
 <body>
+<!-- NAVEGACIÓN NEXORA -->
+<nav class="nexora-nav">
+
+    <div class="nexora-brand">
+        NEXORA<span>®</span>
+    </div>
+
+    <div class="nexora-links">
+
+        <a href="/menu/">Dashboard</a>
+
+        <a href="/ssco/ssco-nuevo.html" class="active">
+            SSCO
+        </a>
+
+        <a href="#" onclick="proximamente('Comprobantes Electrónicos'); return false;">
+            Comprobantes
+        </a>
+
+        <a href="#" onclick="proximamente('Registro de Compras'); return false;">
+            Compras
+        </a>
+
+        <a href="#" onclick="proximamente('Registro de Ventas'); return false;">
+            Ventas
+        </a>
+
+        <a href="#" onclick="proximamente('Reportes'); return false;">
+            Reportes
+        </a>
+
+    </div>
+
+    <div class="nexora-status">
+        <span></span>
+        Sistema operativo
+    </div>
+
+</nav>
+
 <div class="container">
   <div class="header">
     <div class="eyebrow">SSCO · Control tributario</div>
     <h1>Verificador SSCO - Cruce con Registro de Compras SIRE</h1>
     <p class="subtitle">Cruce del Registro de Compras contra el padrón publicado por SUNAT.</p>
+
+    <!-- CONSULTA DE PERIODOS RCE -->
+<section class="rce-panel">
+
+    <div class="rce-panel-header">
+    <div>
+        <h2>Registro de Compras SIRE</h2>
+        <p>
+            Consulta el estado de presentación y sincroniza cada período
+            con el Padrón SSCO.
+        </p>
+    </div>
+</div>
+
+    <div class="rce-selector">
+
+        <div>
+            <label for="periodoRce">Período</label>
+
+            <select id="periodoRce">
+                <option value="2026-08">2026-08</option>
+                <option value="2026-07">2026-07</option>
+                <option value="2026-06">2026-06</option>
+                <option value="2026-05">2026-05</option>
+                <option value="2026-04">2026-04</option>
+                <option value="2026-03">2026-03</option>
+                <option value="2026-02">2026-02</option>
+                <option value="2026-01">2026-01</option>
+                <option value="2025-12">2025-12</option>
+                <option value="2025-11">2025-11</option>
+                <option value="2025-10">2025-10</option>
+                <option value="2025-09">2025-09</option>
+                <option value="2025-08">2025-08</option>
+                <option value="2025-07">2025-07</option>
+                <option value="2025-06">2025-06</option>
+                <option value="2025-05">2025-05</option>
+                <option value="2025-04">2025-04</option>
+                <option value="2025-03">2025-03</option>
+                <option value="2025-02">2025-02</option>
+                <option value="2025-01">2025-01</option>
+            </select>
+        </div>
+
+        <button type="button" class="btn-consultar-rce">
+            CONSULTAR RCE
+        </button>
+
+    </div>
+
+<div id="rceResultados" class="rce-resultados"></div>
+
+</section>
+
+    </section>  
+
+<!-- =========================================
+     HISTORIAL DE SINCRONIZACIONES RCE
+========================================= -->
+
+<section class="rce-history">
+
+    <div class="rce-history-header">
+
+        <div>
+            <div class="rce-eyebrow"></div>
+
+            <h2>Historial de sincronizaciones</h2>
+
+            <p>
+                Consulta las sincronizaciones realizadas y conserva
+                la trazabilidad de cada período procesado.
+            </p>
+        </div>
+
+        <div class="rce-history-badge">
+            HISTORIAL
+        </div>
+
+    </div>
+
+
+    <div class="rce-history-table-wrap">
+
+        <table class="rce-history-table">
+
+            <thead>
+                <tr>
+                    <th>PERÍODO</th>
+                    <th>ESTADO RCE</th>
+                    <th>RESULTADO SSCO</th>
+                    <th>FECHA / HORA</th>
+                    <th>TICKET</th>
+                    <th>ZIP</th>
+                    <th>REGISTROS</th>
+                    <th>PROVEEDORES</th>
+                    <th>OBSERVADOS</th>
+                    <th>DETALLES</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        <strong>2025-03</strong>
+                    </td>
+
+                    <td>
+                        <span class="history-status presentado">
+                            PRESENTADO
+                        </span>
+                    </td>
+
+                    <td>
+                        <span class="history-status sincronizado">
+                            SINCRONIZADO
+                        </span>
+                    </td>
+
+                    <td>
+                        14/09/2026<br>
+                        <small>16:32</small>
+                    </td>
+
+                    <td>
+                        <strong>RCE-20260914-001</strong>
+                    </td>
+
+                    <td>
+                        RCE_2025-03.zip
+                    </td>
+
+                    <td>
+                        1,248
+                    </td>
+
+                    <td>
+                        86
+                    </td>
+
+                    <td>
+                        <span class="history-observed">
+                            3
+                        </span>
+                    </td>
+
+                    <td>
+                        <button
+                            type="button"
+                            class="btn-ver-detalles">
+                            Ver detalles
+                        </button>
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
   </div>
 
   <section class="card">
@@ -845,6 +1808,246 @@ periodo=escapeHtml(periodo);
 function sum(a){return a.reduce((x,y)=>x+y,0)}
 function money(n){return Number(n).toLocaleString('es-PE',{minimumFractionDigits:2,maximumFractionDigits:2})}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+// =========================================
+// CONSULTA RCE · CONEXIÓN CON BACKEND
+// =========================================
+
+const btnConsultarRce = document.querySelector(".btn-consultar-rce");
+const periodoRce = document.getElementById("periodoRce");
+const rceResultados = document.getElementById("rceResultados");
+
+if (btnConsultarRce) {
+    btnConsultarRce.addEventListener("click", async () => {
+
+        const periodoSeleccionado = periodoRce.value;
+
+        if (!periodoSeleccionado) {
+            return;
+        }
+
+        // Convertimos 2026-08 → 202608
+        const periodoApi = periodoSeleccionado.replace("-", "");
+
+        btnConsultarRce.disabled = true;
+        btnConsultarRce.textContent = "CONSULTANDO...";
+
+        rceResultados.innerHTML = `
+            <div class="rce-empty">
+                Consultando información del RCE...
+            </div>
+        `;
+
+        try {
+
+            const response = await fetch(
+    `/api/sire/periodos-rce`
+);
+
+const data = await response.json();
+
+console.log("RESPUESTA REAL DE SUNAT / RCE:", data);
+
+if (!response.ok || !data.success) {
+    throw new Error(
+        data.mensaje ||
+        data.message ||
+        "No se pudo consultar el RCE."
+    );
+}
+
+/*
+ * periodoSeleccionado viene con formato:
+ * 2026-08
+ *
+ * SUNAT devuelve:
+ * 202608
+ */
+const periodoSUNAT = periodoSeleccionado.replace("-", "");
+
+let periodoEncontrado = null;
+
+for (const ejercicio of data.datos || []) {
+    const encontrado = (ejercicio.lisPeriodos || []).find(
+        periodo => periodo.perTributario === periodoSUNAT
+    );
+
+    if (encontrado) {
+        periodoEncontrado = encontrado;
+        break;
+    }
+}
+
+console.log(
+    "PERÍODO SELECCIONADO:",
+    periodoSeleccionado
+);
+
+console.log(
+    "PERÍODO BUSCADO EN SUNAT:",
+    periodoSUNAT
+);
+
+console.log(
+    "ESTADO REAL DEL PERÍODO:",
+    periodoEncontrado
+);
+
+if (!periodoEncontrado) {
+
+    rceResultados.innerHTML = `
+        <div class="rce-empty">
+            SUNAT no devolvió información para el período
+            <strong>${periodoSeleccionado}</strong>.
+        </div>
+    `;
+
+    return;
+}
+
+const estadoSUNAT = periodoEncontrado.desEstado;
+const codigoSUNAT = periodoEncontrado.codEstado;
+
+const esPresentado = codigoSUNAT === "01" ||
+                     estadoSUNAT === "Presentado";
+
+const claseEstado = esPresentado
+    ? "rce-presentado"
+    : "rce-no-presentado";
+
+const textoEstado = esPresentado
+    ? "PRESENTADO"
+    : "NO PRESENTADO";
+
+const [anio, mes] = periodoSeleccionado.split("-");
+
+const nombresMeses = [
+    "",
+    "ENERO",
+    "FEBRERO",
+    "MARZO",
+    "ABRIL",
+    "MAYO",
+    "JUNIO",
+    "JULIO",
+    "AGOSTO",
+    "SEPTIEMBRE",
+    "OCTUBRE",
+    "NOVIEMBRE",
+    "DICIEMBRE"
+];
+
+const periodoTexto = `${nombresMeses[Number(mes)]} ${anio}`;
+
+rceResultados.innerHTML = `
+    <div class="rce-period-card">
+
+        <div class="rce-card-header">
+
+            <div class="rce-brand">
+
+                <div class="rce-period-icon">
+                    RCE
+                </div>
+
+                <div>
+                    <div class="rce-card-kicker">
+                        Registro de Compras SIRE
+                    </div>
+
+                    <div class="rce-period-title">
+                        Período tributario
+                    </div>
+
+                    <div class="rce-period-value">
+                        ${periodoTexto}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="rce-sunat-badge">
+                ✓ SUNAT
+            </div>
+
+        </div>
+
+
+        <div class="rce-status-info">
+
+            <div class="rce-status-card">
+
+                <div class="rce-status-card-label">
+                    ESTADO SUNAT
+                </div>
+
+                <div class="${claseEstado} rce-status-card-value">
+                    ✓ ${textoEstado}
+                </div>
+
+            </div>
+
+
+            <div class="rce-status-card">
+
+                <div class="rce-status-card-label">
+                    PERÍODO
+                </div>
+
+                <div class="rce-status-card-value">
+                    ${periodoSUNAT}
+                </div>
+
+            </div>
+
+
+            <div class="rce-status-card">
+
+                <div class="rce-status-card-label">
+                    CÓDIGO SUNAT
+                </div>
+
+                <div class="rce-status-card-value">
+                    ${codigoSUNAT}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="btn-sincronizar-rce"
+            disabled
+        >
+            ↻ &nbsp; SINCRONIZAR RCE
+        </button>
+
+    </div>
+`;
+
+        } catch (error) {
+
+            console.error("ERROR CONSULTANDO RCE:", error);
+
+            rceResultados.innerHTML = `
+                <div class="rce-empty">
+                    No se pudo consultar el RCE en este momento.
+                    <br>
+                    <small>
+                        Revisa la consola del navegador para ver
+                        la respuesta técnica.
+                    </small>
+                </div>
+            `;
+
+        } finally {
+
+            btnConsultarRce.disabled = false;
+            btnConsultarRce.textContent = "CONSULTAR RCE";
+        }
+    });
+}
 </script>
 </body>
 </html>

@@ -1,166 +1,1119 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SISTEMA CONTABLE IA</title>
+<title>NEXORA | Dashboard</title>
 
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-        .contenedor {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+<style>
 
-        .encabezado {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        .encabezado h1 {
-            margin-bottom: 10px;
-        }
+body{
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:#f8fafc;
+    color:#0f172a;
+    min-height:100vh;
+}
 
-        .encabezado p {
-            color: #666;
-            font-size: 17px;
-        }
+/* =========================
+   FONDO
+========================= */
 
-        .modulos {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
+body::before{
+    content:"";
+    position:fixed;
+    width:500px;
+    height:500px;
+    top:-220px;
+    right:-150px;
+    background:rgba(79,70,229,.10);
+    filter:blur(90px);
+    border-radius:50%;
+    pointer-events:none;
+}
 
-        .tarjeta {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            cursor: pointer;
-            transition: 0.2s;
-            text-align: center;
-        }
+body::after{
+    content:"";
+    position:fixed;
+    width:420px;
+    height:420px;
+    bottom:-200px;
+    left:-120px;
+    background:rgba(34,211,238,.08);
+    filter:blur(90px);
+    border-radius:50%;
+    pointer-events:none;
+}
 
-        .tarjeta:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-        }
+/* =========================
+   CONTENEDOR
+========================= */
 
-        .icono {
-            font-size: 42px;
-            margin-bottom: 15px;
-        }
+.container{
+    width:min(1180px,92%);
+    margin:auto;
+    position:relative;
+    z-index:1;
+}
 
-        .tarjeta h2 {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
+/* =========================
+   TOPBAR
+========================= */
 
-        .tarjeta p {
-            color: #666;
-            margin: 0;
-        }
+.topbar{
+    height:76px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid #e2e8f0;
+}
 
-        .proximamente {
-            opacity: 0.65;
-            cursor: default;
-        }
+.logo{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:-1px;
+}
 
-        .proximamente:hover {
-            transform: none;
-        }
+.logo span{
+    color:#4f46e5;
+}
 
-        .salir {
-            display: block;
-            margin: 40px auto 0;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            background: #d9534f;
-            color: white;
-            cursor: pointer;
-            font-size: 15px;
-        }
+.main-nav{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-left:auto;
+    margin-right:28px;
+}
 
-        .salir:hover {
-            background: #c9302c;
-        }
-    </style>
+.main-nav a{
+    text-decoration:none;
+    color:#64748b;
+    font-size:11px;
+    font-weight:600;
+    padding:8px 10px;
+    border-radius:9px;
+    transition:.2s ease;
+}
+
+.main-nav a:hover{
+    color:#3730a3;
+    background:#eef2ff;
+}
+
+.main-nav a:first-child{
+    color:#3730a3;
+    background:#eef2ff;
+}
+
+.status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12px;
+    color:#64748b;
+    font-weight:600;
+}
+
+.punto{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#4f46e5;
+    animation:pulso 2s infinite;
+}
+
+@keyframes pulso{
+
+    0%,100%{
+        box-shadow:0 0 0 0 rgba(79,70,229,.5);
+    }
+
+    50%{
+        box-shadow:0 0 0 8px rgba(79,70,229,0);
+    }
+}
+
+/* =========================
+   BIENVENIDA
+========================= */
+
+.welcome{
+    padding:42px 0 28px;
+}
+
+.welcome small{
+    color:#64748b;
+    font-size:13px;
+    font-weight:600;
+}
+
+.welcome h1{
+    margin-top:7px;
+    font-size:32px;
+    letter-spacing:-1.2px;
+}
+
+.welcome p{
+    margin-top:9px;
+    color:#64748b;
+    font-size:14px;
+}
+
+/* =========================
+   IA HERO
+========================= */
+
+.ai-panel{
+    position:relative;
+    overflow:hidden;
+    border-radius:24px;
+    padding:30px;
+    color:white;
+
+    background:
+        radial-gradient(circle at 85% 20%,rgba(96,165,250,.35),transparent 30%),
+        radial-gradient(circle at 10% 100%,rgba(45,212,191,.20),transparent 35%),
+        linear-gradient(135deg,#312e81,#4338ca 55%,#2563eb);
+
+    box-shadow:0 20px 45px rgba(37,99,235,.20);
+
+    animation:entrada .65s ease both;
+}
+
+.ai-panel::after{
+    content:"";
+    position:absolute;
+    width:280px;
+    height:280px;
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:50%;
+    right:-100px;
+    top:-100px;
+}
+
+.ai-content{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns:1fr 330px;
+    gap:30px;
+    align-items:center;
+}
+
+.ai-label{
+    font-size:11px;
+    letter-spacing:1.4px;
+    font-weight:700;
+    opacity:.8;
+}
+
+.ai-panel h2{
+    margin-top:8px;
+    font-size:27px;
+    letter-spacing:-.8px;
+}
+
+.ai-panel p{
+    margin-top:10px;
+    font-size:14px;
+    line-height:1.6;
+    color:rgba(255,255,255,.78);
+    max-width:540px;
+}
+
+.ai-button{
+    display:inline-flex;
+    margin-top:20px;
+    padding:11px 17px;
+    border-radius:11px;
+    background:white;
+    color:#3730a3;
+    font-size:12px;
+    font-weight:700;
+    text-decoration:none;
+    transition:.2s;
+}
+
+.ai-button:hover{
+    transform:translateY(-2px);
+}
+
+/* =========================
+   IA CORE
+========================= */
+
+.ai-visual{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.ai-core{
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.ai-core::before,
+.ai-core::after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.25);
+}
+
+.ai-core::before{
+    width:150px;
+    height:150px;
+    animation:girar 12s linear infinite;
+}
+
+.ai-core::after{
+    width:110px;
+    height:110px;
+    border-color:rgba(255,255,255,.18);
+    animation:girar 8s linear infinite reverse;
+}
+
+.core-center{
+    width:64px;
+    height:64px;
+    border-radius:20px;
+    background:rgba(255,255,255,.14);
+    backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.25);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    box-shadow:0 0 35px rgba(255,255,255,.18);
+}
+
+@keyframes girar{
+    from{
+        transform:rotate(0);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+/* =========================
+   PROCESAMIENTO
+========================= */
+
+.processing{
+    margin-top:24px;
+    padding:18px;
+    border-radius:16px;
+    background:rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.14);
+}
+
+.processing-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:11px;
+    color:rgba(255,255,255,.70);
+}
+
+.processing-value{
+    font-size:20px;
+    font-weight:800;
+    color:white;
+}
+
+.progress{
+    height:7px;
+    background:rgba(255,255,255,.15);
+    border-radius:20px;
+    margin-top:11px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    width:0;
+    height:100%;
+    border-radius:20px;
+    background:#67e8f9;
+    animation:cargar 1.6s ease forwards;
+}
+
+@keyframes cargar{
+    to{
+        width:78%;
+    }
+}
+
+/* =========================
+   RESUMEN
+========================= */
+
+.summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    margin-top:22px;
+}
+
+.summary-card{
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:17px;
+    padding:20px;
+    box-shadow:0 7px 22px rgba(15,23,42,.04);
+    animation:entrada .6s ease both;
+}
+
+.summary-card:nth-child(2){
+    animation-delay:.08s;
+}
+
+.summary-card:nth-child(3){
+    animation-delay:.16s;
+}
+
+.summary-card:nth-child(4){
+    animation-delay:.24s;
+}
+
+.summary-card small{
+    color:#64748b;
+    font-size:11px;
+    font-weight:600;
+}
+
+.summary-card strong{
+    display:block;
+    margin-top:8px;
+    font-size:23px;
+}
+
+.summary-card span{
+    display:block;
+    margin-top:5px;
+    color:#94a3b8;
+    font-size:11px;
+}
+
+/* =========================
+   MODULOS
+========================= */
+
+.section-title{
+    margin-top:38px;
+    margin-bottom:15px;
+}
+
+.section-title h3{
+    font-size:17px;
+}
+
+.section-title p{
+    margin-top:5px;
+    color:#64748b;
+    font-size:12px;
+}
+
+.modules{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.module{
+    position:relative;
+    background:white;
+    border:1px solid #e2e8f0;
+    border-radius:18px;
+    padding:22px;
+    min-height:150px;
+    transition:.25s;
+    animation:entrada .55s ease both;
+}
+
+.module:nth-child(2){animation-delay:.05s}
+.module:nth-child(3){animation-delay:.10s}
+.module:nth-child(4){animation-delay:.15s}
+.module:nth-child(5){animation-delay:.20s}
+.module:nth-child(6){animation-delay:.25s}
+.module:nth-child(7){animation-delay:.30s}
+.module:nth-child(8){animation-delay:.35s}
+.module:nth-child(9){animation-delay:.40s}
+
+.module.active{
+    cursor:pointer;
+}
+
+.module.active:hover{
+    transform:translateY(-5px);
+    border-color:#818cf8;
+    box-shadow:0 15px 35px rgba(79,70,229,.12);
+}
+
+.module-icon{
+    width:54px;
+    height:54px;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:3px;
+    transition:.25s ease;
+}
+
+.module-icon svg{
+    width:32px;
+    height:32px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:2.2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.icon-ssco{
+    color:#2563eb;
+    background:#eff6ff;
+}
+
+.icon-cpe{
+    color:#7c3aed;
+    background:#f5f3ff;
+}
+
+.icon-compras{
+    color:#0891b2;
+    background:#ecfeff;
+}
+
+.icon-ventas{
+    color:#059669;
+    background:#ecfdf5;
+}
+
+.icon-reportes{
+    color:#2563eb;
+    background:#eff6ff;
+}
+
+.icon-impuestos{
+    color:#ea580c;
+    background:#fff7ed;
+}
+
+.icon-persona{
+    color:#db2777;
+    background:#fdf2f8;
+}
+
+.icon-finanzas{
+    color:#4f46e5;
+    background:#eef2ff;
+}
+
+.icon-ia{
+    color:#0891b2;
+    background:#ecfeff;
+}
+
+.module:hover .module-icon{
+    transform:scale(1.08);
+}
+
+.module h4{
+    margin-top:15px;
+    font-size:14px;
+}
+
+.module p{
+    margin-top:6px;
+    color:#64748b;
+    font-size:11px;
+    line-height:1.5;
+}
+
+.badge{
+    position:absolute;
+    right:15px;
+    top:15px;
+    padding:5px 8px;
+    border-radius:20px;
+    font-size:9px;
+    font-weight:700;
+    background:#f1f5f9;
+    color:#64748b;
+}
+
+.badge.active{
+    background:#ecfdf5;
+    color:#059669;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    margin:45px 0 25px;
+    padding-top:18px;
+    border-top:1px solid #e2e8f0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:#94a3b8;
+    font-size:11px;
+}
+
+.logout{
+    border:0;
+    background:none;
+    color:#64748b;
+    font-size:11px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.logout:hover{
+    color:#ef4444;
+}
+
+/* =========================
+   ANIMACION
+========================= */
+
+@keyframes entrada{
+
+    from{
+        opacity:0;
+        transform:translateY(12px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1000px){
+
+    .main-nav{
+        gap:2px;
+        margin-right:12px;
+    }
+
+    .main-nav a{
+        padding:7px 6px;
+        font-size:10px;
+    }
+
+}
+
+@media(max-width:850px){
+
+    .ai-content{
+        grid-template-columns:1fr;
+    }
+
+    .ai-visual{
+        display:none;
+    }
+
+    .summary{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .modules{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:560px){
+
+    .topbar{
+        height:65px;
+    }
+
+    .welcome h1{
+        font-size:25px;
+    }
+
+    .ai-panel{
+        padding:22px;
+    }
+
+    .summary{
+        grid-template-columns:1fr;
+    }
+
+    .modules{
+        grid-template-columns:1fr;
+    }
+
+    .footer{
+        flex-direction:column;
+        gap:12px;
+    }
+
+}
+
+</style>
 </head>
 
 <body>
 
-    <div class="contenedor">
+<div class="container">
 
-        <div class="encabezado">
-            <h1>SISTEMA CONTABLE IA</h1>
-            <p>Seleccione el módulo que desea utilizar</p>
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+    <div class="logo">
+        NEXORA<span>®</span>
+    </div>
+
+    <nav class="main-nav">
+
+        <a href="/menu/">Dashboard</a>
+
+        <a href="/ssco/ssco-nuevo.html">SSCO</a>
+
+        <a href="#" onclick="proximamente('Comprobantes Electrónicos'); return false;">
+            Comprobantes
+        </a>
+
+        <a href="#" onclick="proximamente('Registro de Compras'); return false;">
+            Compras
+        </a>
+
+        <a href="#" onclick="proximamente('Registro de Ventas'); return false;">
+            Ventas
+        </a>
+
+        <a href="#" onclick="proximamente('Reportes'); return false;">
+            Reportes
+        </a>
+
+    </nav>
+
+    <div class="status">
+        <span class="punto"></span>
+        Sistema operativo
+    </div>
+
+</header>
+
+
+    <!-- BIENVENIDA -->
+
+    <section class="welcome">
+
+        <small>PLATAFORMA CONTABLE INTELIGENTE</small>
+
+        <h1>Bienvenido a NEXORA</h1>
+
+        <p>
+            Tu centro de operaciones para información contable, tributaria y financiera.
+        </p>
+
+    </section>
+
+
+    <!-- IA -->
+
+    <section class="ai-panel">
+
+        <div class="ai-content">
+
+            <div>
+
+                <div class="ai-label">
+                    NEXORA IA · SISTEMA ACTIVO
+                </div>
+
+                <h2>
+                    Inteligencia que trabaja contigo
+                </h2>
+
+                <p>
+                    Analiza información, identifica patrones y prepara
+                    tus procesos contables desde un solo lugar.
+                </p>
+
+                    <div class="ai-visual">
+
+                    <div class="ai-core">
+
+                    <div class="core-center">
+                 IA
+                    </div>
+
+                 </div>
+
+            </div>
+
+            </div>
+
+
+            <div class="ai-visual">
+
+                <div class="ai-core">
+
+                    <div class="core-center">
+                        ✦
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="modulos">
+    </section>
 
-            <!-- MÓDULO SSCO -->
-            <div class="tarjeta" onclick="abrirSSCO()">
-                <div class="icono">📊</div>
-                <h2>Consulta Reportes SSCO</h2>
-                <p>Registro de Compras y validación de proveedores</p>
-            </div>
+<!-- MODULOS -->
 
-            <!-- COMPROBANTES -->
-            <div class="tarjeta proximamente">
-                <div class="icono">📥</div>
-                <h2>Descarga de Comprobantes Electrónicos</h2>
-                <p>Próximamente</p>
-            </div>
+<div class="section-title">
 
-            <!-- IMPUESTOS -->
-            <div class="tarjeta proximamente">
-                <div class="icono">🧾</div>
-                <h2>Reporte de Liquidación de Impuestos</h2>
-                <p>Próximamente</p>
-            </div>
+    <h3>Centro de operaciones</h3>
 
-            <!-- PERSONA NATURAL -->
-            <div class="tarjeta proximamente">
-                <div class="icono">👤</div>
-                <h2>Reporte de Persona Natural</h2>
-                <p>Próximamente</p>
-            </div>
+    <p>
+        Accede a las herramientas de tu sistema contable.
+    </p>
 
-            <!-- ESTADOS FINANCIEROS -->
-            <div class="tarjeta proximamente">
-                <div class="icono">📑</div>
-                <h2>Estados Financieros para Microempresas</h2>
-                <p>Normativa NPIF — Próximamente</p>
-            </div>
+</div>
+
+
+<section class="modules">
+
+
+    <!-- SSCO -->
+
+    <article class="module active" onclick="abrirSSCO()">
+
+        <div class="module-icon icon-ssco">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3z"/>
+                <path d="M8.5 12l2.2 2.2 4.8-5"/>
+            </svg>
 
         </div>
 
-        <button class="salir" onclick="cerrarSesion()">
+        <span class="badge active">
+            DISPONIBLE
+        </span>
+
+        <h4>
+            Validador SSCO
+        </h4>
+
+        <p>
+            Valida proveedores frente al padrón SSCO de SUNAT.
+        </p>
+
+    </article>
+
+
+    <!-- COMPROBANTES -->
+
+    <article class="module">
+
+        <div class="module-icon icon-cpe">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 3h9l4 4v14H6z"/>
+                <path d="M14 3v5h5"/>
+                <path d="M9 12h6M9 16h6"/>
+            </svg>
+
+        </div>
+
+        <span class="badge">
+            PRÓXIMAMENTE
+        </span>
+
+        <h4>
+            Comprobantes Electrónicos
+        </h4>
+
+        <p>
+            Descarga y procesa comprobantes electrónicos.
+        </p>
+
+    </article>
+
+
+    <!-- COMPRAS -->
+
+    <article class="module">
+
+        <div class="module-icon icon-compras">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 5h16l-1.5 9h-11z"/>
+                <path d="M7 5L9 3h6l2 2"/>
+                <circle cx="9" cy="18" r="1"/>
+                <circle cx="17" cy="18" r="1"/>
+                <path d="M12 8v4M10 10h4"/>
+            </svg>
+
+        </div>
+
+        <span class="badge">
+            PRÓXIMAMENTE
+        </span>
+
+        <h4>
+            Registro de Compras
+        </h4>
+
+        <p>
+            Consulta y procesa información del SIRE RCE.
+        </p>
+
+    </article>
+
+
+    <!-- VENTAS -->
+
+    <article class="module">
+
+        <div class="module-icon icon-ventas">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 19V5M4 19h16"/>
+                <path d="M7 15l4-4 3 2 6-7"/>
+                <path d="M16 6h4v4"/>
+            </svg>
+
+        </div>
+
+        <span class="badge">
+            PRÓXIMAMENTE
+        </span>
+
+        <h4>
+            Registro de Ventas
+        </h4>
+
+        <p>
+            Consulta y procesa información del SIRE RVIE.
+        </p>
+
+    </article>
+
+
+    <!-- REPORTES -->
+
+    <article class="module">
+
+        <div class="module-icon icon-reportes">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 20V10M12 20V4M19 20v-7"/>
+                <path d="M3 20h18"/>
+            </svg>
+
+        </div>
+
+        <span class="badge">
+            PRÓXIMAMENTE
+        </span>
+
+        <h4>
+            Reportes Contables
+        </h4>
+
+        <p>
+            Genera reportes para análisis y control contable.
+        </p>
+
+    </article>
+
+
+    <!-- IMPUESTOS -->
+
+    <article class="module">
+
+        <div class="module-icon icon-impuestos">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="5" y="3" width="14" height="18" rx="2"/>
+                <path d="M8 7h8"/>
+                <path d="M8 11h2M14 11h2"/>
+                <path d="M8 15h2M14 15h2"/>
+                <path d="M8 18h8"/>
+            </svg>
+
+        </div>
+
+        <span class="badge">
+            PRÓXIMAMENTE
+        </span>
+
+        <h4>
+            Liquidación de Impuestos
+        </h4>
+
+        <p>
+            Organiza información para tus obligaciones tributarias.
+        </p>
+
+    </article>
+
+
+    <!-- PERSONA NATURAL -->
+
+    <article class="module">
+
+        <div class="module-icon icon-persona">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="8" r="3.5"/>
+                <path d="M5 21c.8-4 3.1-6 7-6s6.2 2 7 6"/>
+            </svg>
+
+        </div>
+
+        <span class="badge">
+            PRÓXIMAMENTE
+        </span>
+
+        <h4>
+            Persona Natural
+        </h4>
+
+        <p>
+            Herramientas para información tributaria personal.
+        </p>
+
+    </article>
+
+
+    <!-- ESTADOS FINANCIEROS -->
+
+    <article class="module">
+
+        <div class="module-icon icon-finanzas">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 3h9l4 4v14H6z"/>
+                <path d="M14 3v5h5"/>
+                <path d="M9 12h6M9 16h6M9 19h6"/>
+            </svg>
+
+        </div>
+
+        <span class="badge">
+            PRÓXIMAMENTE
+        </span>
+
+        <h4>
+            Estados Financieros
+        </h4>
+
+        <p>
+            ESF, estado de resultados y flujo de efectivo.
+        </p>
+
+    </article>
+
+
+    <!-- NEXORA IA -->
+
+    <article class="module">
+
+        <div class="module-icon icon-ia">
+
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+                <path d="M4.9 4.9L7 7M17 17l2.1 2.1"/>
+                <path d="M19.1 4.9L17 7M7 17l-2.1 2.1"/>
+            </svg>
+
+        </div>
+
+        <span class="badge">
+            IA
+        </span>
+
+        <h4>
+            NEXORA IA
+        </h4>
+
+        <p>
+            Análisis inteligente y asistencia para tus procesos.
+        </p>
+
+    </article>
+
+
+</section>
+
+    <footer class="footer">
+
+        <span>
+            NEXORA® · Plataforma Contable Inteligente
+        </span>
+
+        <button class="logout" onclick="cerrarSesion()">
             Cerrar sesión
         </button>
 
-    </div>
+    </footer>
 
-    <script>
+</div>
 
-        function abrirSSCO() {
-    window.location.href = "/ssco/ssco-nuevo.html";
+
+<script>
+
+function abrirSSCO(){
+
+    window.location.href="/ssco/ssco-nuevo.html";
+
 }
 
-        function cerrarSesion() {
-            window.location.href = "/login/";
-        }
+function cerrarSesion(){
 
-    </script>
+    window.location.href="/login/";
+
+}
+
+function proximamente(modulo){
+
+    alert(
+        modulo +
+        "\n\nEste módulo estará disponible próximamente en NEXORA."
+    );
+
+}
+
+</script>
 
 </body>
 </html>
