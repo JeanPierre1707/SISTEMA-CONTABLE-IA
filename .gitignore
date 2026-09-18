@@ -2,3 +2,4 @@
 node_modules/
 *.log
 users.json
+backend/historial-rce.json
