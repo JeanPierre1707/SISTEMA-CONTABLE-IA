@@ -129,14 +129,30 @@
     color:#0f172a;
 }
 
-.rce-panel-header h2{
+.rce-panel-header h2,
+.rce-history-header h2{
     font-size:20px;
     margin:0 0 7px;
+    color:#0f172a;
 }
 
-.rce-panel-header p{
+.rce-panel-header p,
+.rce-history-header p{
     margin:0;
     color:var(--muted);
+}
+
+.rce-history .rce-history-header h2{
+    font-size:20px !important;
+    font-weight:700 !important;
+    margin:0 0 7px !important;
+    color:#0f172a !important;
+}
+
+.rce-history .rce-history-header p{
+    font-size:16px !important;
+    margin:0 !important;
+    color:var(--muted) !important;
 }
 
 .rce-sync-status{
@@ -308,49 +324,72 @@
 
 .rce-status-info{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:repeat(4, minmax(0, 1fr));
     gap:14px;
-    width:100%;
-    max-width:900px;
-    margin:0 auto;
+    margin-top:20px;
 }
 
 .rce-status-card{
-    min-height:72px;
-    padding:11px 14px;
-    border:1px solid #15803d;
-    border-radius:12px;
-    background:#249447;
+    min-height:88px;
+    padding:16px 18px;
+    border:1px solid #e5e7eb;
+    border-radius:14px;
+    background:#ffffff;
     display:flex;
     flex-direction:column;
-    align-items:center;
     justify-content:center;
-    text-align:center;
     box-sizing:border-box;
 }
 
 .rce-status-card-label{
-    margin-bottom:5px;
-    color:#ffffff;
-    font-size:12px;
-    font-weight:900;
-    letter-spacing:.6px;
-    text-transform:uppercase;
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.07em;
+    color:#6b7280;
+    margin-bottom:8px;
 }
 
 .rce-status-card-value{
-    color:#ffffff;
-    font-size:16px;
-    font-weight:900;
-    line-height:1.1;
+    font-size:14px;
+    font-weight:800;
+    color:#374151;
+    line-height:1.25;
+}
+
+/* RESULTADO SSCO — estados */
+
+.rce-pendiente{
+    color:#6b7280;
+}
+
+.rce-sincronizado{
+    color:#16a34a;
+}
+
+.rce-observado{
+    color:#dc2626;
+}
+
+/* Responsive */
+
+@media (max-width:900px){
+    .rce-status-info{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width:560px){
+    .rce-status-info{
+        grid-template-columns:1fr;
+    }
 }
 
 .rce-presentado{
-    color:#ffffff;
+    color:#ffffff !important;
 }
 
 .rce-no-presentado{
-    color:#ffdddd;
+    color:#ffdddd !important;
 }
 
 .rce-status-top{
@@ -562,12 +601,18 @@
 }
 
 .rce-history-header{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:20px;
     margin-bottom:28px;
     padding-bottom:4px;
+}
+
+.rce-history-header h2{
+    font-size:20px;
+    margin:0 0 7px;
+}
+
+.rce-history-header p{
+    margin:0;
+    color:var(--muted);
 }
 
 .rce-history .rce-eyebrow{
@@ -646,8 +691,11 @@
 
 .rce-history-table th:last-child,
 .rce-history-table td:last-child{
-    width:120px;
-    min-width:120px;
+    width:150px !important;
+    min-width:150px !important;
+    text-align:center !important;
+    padding-left:20px !important;
+    padding-right:20px !important;
 }
 
 .rce-history-table tbody tr:last-child td{
@@ -717,6 +765,8 @@
     cursor:pointer;
     white-space:nowrap;
     transition:.2s ease;
+    display:block;
+    margin:0 auto;
 }
 
 .btn-ver-detalles:hover{
@@ -725,6 +775,26 @@
     box-shadow:0 5px 12px rgba(37,99,235,.12);
 }
 
+
+.rce-history-table th:last-child,
+.rce-history-table td:last-child{
+    text-align:center !important;
+}
+
+.rce-history-table .btn-ver-detalles{
+    display:inline-block !important;
+    margin:0 auto !important;
+}
+
+.rce-history-table td:last-child{
+    padding-top:24px !important;
+    padding-bottom:24px !important;
+}
+
+.rce-history-table .btn-ver-detalles{
+    position:relative !important;
+    top:14px !important;
+}
 
 /* RESPONSIVE */
 
@@ -863,8 +933,317 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust
   #printArea{display:block;position:absolute;left:0;top:0;width:100%;padding:10px;background:#fff}
   .container{display:none}
 }
-@media(max-width:800px){.metrics{grid-template-columns:1fr 1fr}.impact-grid{grid-template-columns:1fr}.container{margin-top:20px}}
-@media(max-width:520px){.metrics{grid-template-columns:1fr}}
+@media(max-width:800px){
+    .metrics{grid-template-columns:1fr 1fr}
+    .impact-grid{grid-template-columns:1fr}
+    .container{margin-top:20px}
+}
+
+@media(max-width:520px){
+    .metrics{grid-template-columns:1fr}
+}
+
+/* =========================================
+   RCE · DISEÑO FINAL DE LAS 4 TARJETAS
+========================================= */
+
+.rce-status-info{
+    display:grid !important;
+    grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+    gap:14px !important;
+    width:100% !important;
+    margin-top:20px !important;
+}
+
+.rce-status-info .rce-status-card{
+    min-height:105px !important;
+    width:100% !important;
+    padding:18px 20px !important;
+
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:center !important;
+
+    box-sizing:border-box !important;
+
+    background:#dcfce7 !important;
+    border:1px solid #86efac !important;
+    border-radius:15px !important;
+
+    box-shadow:0 5px 16px rgba(15,23,42,.06) !important;
+
+    transition:.2s ease !important;
+}
+
+.rce-status-info .rce-status-card:hover{
+    transform:translateY(-2px) !important;
+    box-shadow:0 8px 20px rgba(15,23,42,.09) !important;
+}
+
+.rce-status-info .rce-status-card-label{
+    display:block !important;
+    margin:0 0 9px 0 !important;
+    color:#64748b !important;
+    font-size:10px !important;
+    font-weight:900 !important;
+    letter-spacing:.08em !important;
+    text-transform:uppercase !important;
+}
+
+.rce-status-info .rce-status-card-value{
+    margin:0 !important;
+    font-size:15px !important;
+    font-weight:900 !important;
+    line-height:1.3 !important;
+}
+
+/* ESTADO SUNAT */
+.rce-status-info .rce-presentado{
+    color:#15803d !important;
+}
+
+.rce-status-info .rce-no-presentado{
+    color:#b91c1c !important;
+}
+
+/* RESULTADO SSCO */
+.rce-status-info .rce-pendiente{
+    color:#64748b !important;
+}
+
+.rce-status-info .rce-sincronizado{
+    color:#15803d !important;
+}
+
+.rce-status-info .rce-observado{
+    color:#dc2626 !important;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+    .rce-status-info{
+        grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media(max-width:560px){
+    .rce-status-info{
+        grid-template-columns:1fr !important;
+    }
+}
+
+.rce-status-info .rce-status-card{
+    min-height:100px !important;
+    padding:18px 20px !important;
+    background:#dcfce7 !important;
+    border:1px solid #86efac !important;
+    border-radius:15px !important;
+    box-shadow:0 5px 16px rgba(15,23,42,.06) !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:center !important;
+    box-sizing:border-box !important;
+}
+
+.rce-status-info .rce-status-card-label{
+    display:block !important;
+    margin-bottom:9px !important;
+    color:#64748b !important;
+    font-size:10px !important;
+    font-weight:900 !important;
+    letter-spacing:.08em !important;
+    text-transform:uppercase !important;
+}
+
+.rce-status-info .rce-status-card-value{
+    font-size:15px !important;
+    font-weight:900 !important;
+    line-height:1.3 !important;
+}
+
+.rce-status-info .rce-pendiente{
+    color:#64748b !important;
+}
+
+.rce-status-info .rce-sincronizado{
+    color:#15803d !important;
+}
+
+.rce-status-info .rce-observado{
+    color:#dc2626 !important;
+}
+
+/* =========================================
+   RCE · AJUSTES FINALES DE ESTADO
+========================================= */
+
+.rce-status-info{
+    display:grid;
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+    gap:14px;
+    width:100%;
+    margin-top:20px;
+}
+
+/* TARJETAS DE ESTADO */
+
+.rce-status-card{
+    min-height:96px;
+    padding:17px 18px;
+    border:1px solid #86efac;
+    border-radius:14px;
+    background:#dcfce7;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    box-sizing:border-box;
+    box-shadow:0 4px 14px rgba(15,23,42,.05);
+}
+
+/* PRIMERAS 3 TARJETAS · VERDE SSCO */
+
+.rce-status-card:nth-child(-n+3){
+    background:#dcfce7;
+    border-color:#86efac;
+}
+
+.rce-status-card-label{
+    margin-bottom:9px;
+    font-size:13px;
+    font-weight:900;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:#111827;
+}
+
+.rce-status-card-value{
+    font-size:16px;
+    font-weight:900;
+    line-height:1.3;
+    color:#15803d !important;
+}
+
+/* ESTADOS */
+
+.rce-pendiente{
+    color:#15803d !important;
+}
+
+.rce-sincronizado{
+    color:#15803d !important;
+}
+
+.rce-observado{
+    color:#15803d !important;
+}
+
+/* =========================================
+   RCE · ESTADOS DINÁMICOS
+========================================= */
+
+.rce-status-info .rce-status-card-label{
+    font-size:14px !important;
+}
+
+.rce-status-info .rce-status-card:has(.rce-no-presentado){
+    background:#fee2e2 !important;
+    border-color:#fca5a5 !important;
+}
+
+.rce-status-info .rce-status-card.rce-resultado-ssco:has(.rce-observado){
+    background:#fee2e2 !important;
+    border-color:#fca5a5 !important;
+}
+
+.rce-status-info .rce-status-card.rce-resultado-ssco:has(.rce-observado) .rce-observado{
+    color:#dc2626 !important;
+}
+
+/* MENSAJE DE SINCRONIZACIÓN */
+
+.rce-sync-info{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    width:fit-content;
+    max-width:100%;
+    box-sizing:border-box;
+    margin-top:12px;
+    padding:11px 15px;
+    border:1px solid #bbf7d0;
+    border-radius:12px;
+    background:#f0fdf4;
+    color:#15803d;
+    font-size:13px;
+    font-weight:800;
+    line-height:1.4;
+}
+
+/* BOTÓN SINCRONIZADO / BLOQUEADO */
+
+.btn-sincronizar-rce:disabled{
+    background:#e5e7eb;
+    color:#6b7280;
+    border:1px solid #d1d5db;
+    opacity:1;
+    cursor:not-allowed;
+    box-shadow:none;
+    transform:none;
+}
+
+.btn-sincronizar-rce:disabled:hover{
+    background:#e5e7eb;
+    color:#6b7280;
+    box-shadow:none;
+    transform:none;
+}
+
+.rce-status-info .rce-status-card.rce-resultado-ssco.sincronizado{
+    background:#ecfdf5 !important;
+    border-color:#bbf7d0 !important;
+}
+
+.rce-resultado-ssco .rce-pendiente{
+    color:#6b7280 !important;
+}
+
+.rce-resultado-ssco:not(.rce-resultado-ssco-sincronizado):not(.rce-resultado-ssco-observado){
+    background:#f3f4f6 !important;
+    border-color:#d1d5db !important;
+}
+
+.rce-resultado-ssco-sincronizado{
+    background:#dcfce7 !important;
+    border-color:#86efac !important;
+}
+
+.rce-resultado-ssco-sincronizado .rce-sincronizado{
+    color:#15803d !important;
+}
+
+.rce-resultado-ssco-observado{
+    background:#fee2e2 !important;
+    border-color:#fca5a5 !important;
+}
+
+.rce-resultado-ssco-observado .rce-observado{
+    color:#dc2626 !important;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+    .rce-status-info{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media(max-width:560px){
+    .rce-status-info{
+        grid-template-columns:1fr;
+    }
+}
+
 </style>
 </head>
 <body>
@@ -953,6 +1332,18 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust
                 <option value="2025-03">2025-03</option>
                 <option value="2025-02">2025-02</option>
                 <option value="2025-01">2025-01</option>
+                <option value="2024-12">2024-12</option>
+                <option value="2024-11">2024-11</option>
+                <option value="2024-10">2024-10</option>
+                <option value="2024-09">2024-09</option>
+                <option value="2024-08">2024-08</option>
+                <option value="2024-07">2024-07</option>
+                <option value="2024-06">2024-06</option>
+                <option value="2024-05">2024-05</option>
+                <option value="2024-04">2024-04</option>
+                <option value="2024-03">2024-03</option>
+                <option value="2024-02">2024-02</option>
+                <option value="2024-01">2024-01</option>
             </select>
         </div>
 
@@ -974,11 +1365,9 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust
 
 <section class="rce-history">
 
-    <div class="rce-history-header">
+     <div class="rce-history-header rce-panel-header">
 
         <div>
-            <div class="rce-eyebrow"></div>
-
             <h2>Historial de sincronizaciones</h2>
 
             <p>
@@ -986,11 +1375,7 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust
                 la trazabilidad de cada período procesado.
             </p>
         </div>
-
-        <div class="rce-history-badge">
-            HISTORIAL
-        </div>
-
+        
     </div>
 
 
@@ -1013,62 +1398,7 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust
                 </tr>
             </thead>
 
-            <tbody>
-
-                <tr>
-
-                    <td>
-                        <strong>2025-03</strong>
-                    </td>
-
-                    <td>
-                        <span class="history-status presentado">
-                            PRESENTADO
-                        </span>
-                    </td>
-
-                    <td>
-                        <span class="history-status sincronizado">
-                            SINCRONIZADO
-                        </span>
-                    </td>
-
-                    <td>
-                        14/09/2026<br>
-                        <small>16:32</small>
-                    </td>
-
-                    <td>
-                        <strong>RCE-20260914-001</strong>
-                    </td>
-
-                    <td>
-                        RCE_2025-03.zip
-                    </td>
-
-                    <td>
-                        1,248
-                    </td>
-
-                    <td>
-                        86
-                    </td>
-
-                    <td>
-                        <span class="history-observed">
-                            3
-                        </span>
-                    </td>
-
-                    <td>
-                        <button
-                            type="button"
-                            class="btn-ver-detalles">
-                            Ver detalles
-                        </button>
-                    </td>
-
-                </tr>
+            <tbody id="rceHistorialBody">
 
             </tbody>
 
@@ -1099,7 +1429,7 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust
 
   <section class="card">
     <h2>Cargar Registro de Compras (SIRE/RCE)</h2>
-    <p>El archivo de tu propuesta o registro generado en el SIRE de SUNAT.</p>
+    <p>Consulta y sincronización del Registro de Compras SIRE.</p>
 
     <div class="upload-zone" id="uploadZone">
       <label class="dropzone" id="dropzone">
@@ -1173,7 +1503,9 @@ const state={
   demo:false,
   padron:[],
   padronUpdatedAt:null,
-  docs:[]
+  docs:[],
+  rceSincronizados:{},
+  rceHistorial:[]
 };
 
 // Catálogo N.° 01 SUNAT (Tipo de Comprobante de Pago), simplificado a los tipos usados en el prototipo.
@@ -1815,17 +2147,19 @@ function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':
 const btnConsultarRce = document.querySelector(".btn-consultar-rce");
 const periodoRce = document.getElementById("periodoRce");
 const rceResultados = document.getElementById("rceResultados");
+const rceHistorialBody =
+    document.getElementById("rceHistorialBody");
 
 if (btnConsultarRce) {
     btnConsultarRce.addEventListener("click", async () => {
 
         const periodoSeleccionado = periodoRce.value;
+        const yaSincronizado = !!state.rceSincronizados[periodoSeleccionado];
 
         if (!periodoSeleccionado) {
             return;
         }
 
-        // Convertimos 2026-08 → 202608
         const periodoApi = periodoSeleccionado.replace("-", "");
 
         btnConsultarRce.disabled = true;
@@ -1839,197 +2173,630 @@ if (btnConsultarRce) {
 
         try {
 
+            // ==========================================
+            // 1. CONSULTAR ESTADO DEL PERÍODO EN SUNAT
+            // ==========================================
+
             const response = await fetch(
-    `/api/sire/periodos-rce`
-);
+                "/api/sire/periodos-rce"
+            );
 
-const data = await response.json();
+            const data = await response.json();
 
-console.log("RESPUESTA REAL DE SUNAT / RCE:", data);
+            console.log(
+                "RESPUESTA REAL DE SUNAT / RCE:",
+                data
+            );
 
-if (!response.ok || !data.success) {
-    throw new Error(
-        data.mensaje ||
-        data.message ||
-        "No se pudo consultar el RCE."
+            if (!response.ok || !data.success) {
+                throw new Error(
+                    data.mensaje ||
+                    data.message ||
+                    "No se pudo consultar el RCE."
+                );
+            }
+
+            const periodoSUNAT =
+                periodoSeleccionado.replace("-", "");
+
+            let periodoEncontrado = null;
+
+            for (const ejercicio of data.datos || []) {
+
+                const encontrado =
+                    (ejercicio.lisPeriodos || []).find(
+                        periodo =>
+                            periodo.perTributario === periodoSUNAT
+                    );
+
+                if (encontrado) {
+                    periodoEncontrado = encontrado;
+                    break;
+                }
+            }
+
+            if (!periodoEncontrado) {
+
+                rceResultados.innerHTML = `
+                    <div class="rce-empty">
+                        SUNAT no devolvió información para el período
+                        <strong>${periodoSeleccionado}</strong>.
+                    </div>
+                `;
+
+                return;
+            }
+
+            // ==========================================
+            // 3. ESTADO SUNAT
+            // ==========================================
+
+            const estadoSUNAT =
+                periodoEncontrado.desEstado;
+
+            const codigoSUNAT =
+                periodoEncontrado.codEstado;
+
+            const esPresentado =
+                codigoSUNAT === "01" ||
+                estadoSUNAT === "Presentado";
+
+            const claseEstado =
+                esPresentado
+                    ? "rce-presentado"
+                    : "rce-no-presentado";
+
+            const textoEstado =
+                esPresentado
+                    ? "PRESENTADO"
+                    : "NO PRESENTADO";
+
+            // ==========================================
+            // 4. PERÍODO
+            // ==========================================
+
+            const [anio, mes] =
+                periodoSeleccionado.split("-");
+
+            const nombresMeses = [
+                "",
+                "ENERO",
+                "FEBRERO",
+                "MARZO",
+                "ABRIL",
+                "MAYO",
+                "JUNIO",
+                "JULIO",
+                "AGOSTO",
+                "SEPTIEMBRE",
+                "OCTUBRE",
+                "NOVIEMBRE",
+                "DICIEMBRE"
+            ];
+
+            const periodoTexto =
+                `${nombresMeses[Number(mes)]} ${anio}`;
+
+            // ==========================================
+            // 6. MOSTRAR LAS 4 TARJETAS
+            // ==========================================
+
+            rceResultados.innerHTML = `
+                <div class="rce-period-card">
+
+                    <div class="rce-card-header">
+
+                        <div class="rce-brand">
+
+                            <div class="rce-period-icon">
+                                RCE
+                            </div>
+
+                            <div>
+                                <div class="rce-card-kicker">
+                                    Registro de Compras SIRE
+                                </div>
+
+                                <div class="rce-period-title">
+                                    Período tributario
+                                </div>
+
+                                <div class="rce-period-value">
+                                    ${periodoTexto}
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="rce-sunat-badge">
+                            ✓ SUNAT
+                        </div>
+
+                    </div>
+
+
+                    <div class="rce-status-info">
+
+                        <!-- TARJETA 1 -->
+                        <div class="rce-status-card">
+
+                            <div class="rce-status-card-label">
+                                ESTADO SUNAT
+                            </div>
+
+                            <div class="${claseEstado} rce-status-card-value">
+                                ✓ ${textoEstado}
+                            </div>
+
+                        </div>
+
+
+                        <!-- TARJETA 2 -->
+                        <div class="rce-status-card">
+
+                            <div class="rce-status-card-label">
+                                PERÍODO
+                            </div>
+
+                            <div class="rce-status-card-value">
+                                ${periodoSUNAT}
+                            </div>
+
+                        </div>
+
+
+                        <!-- TARJETA 3 -->
+                        <div class="rce-status-card">
+
+                            <div class="rce-status-card-label">
+                                CÓDIGO SUNAT
+                            </div>
+
+                            <div class="rce-status-card-value">
+                                ${codigoSUNAT}
+                            </div>
+
+                        </div>
+
+
+                        <!-- TARJETA 4 -->
+                        <div class="rce-status-card rce-resultado-ssco ${yaSincronizado ? 'rce-resultado-ssco-sincronizado' : ''}">
+                            <div class="rce-status-card-label">
+                                RESULTADO SSCO
+                            </div>
+                            <div class="${yaSincronizado ? 'rce-sincronizado' : 'rce-pendiente'} rce-status-card-value">
+                                  ${yaSincronizado ? '✓ SINCRONIZADO' : '✕ PENDIENTE DE SINCRONIZAR'}
+                            </div>
+                            </div>
+                    </div>
+
+
+
+
+                    <button
+                        type="button"
+                        class="btn-sincronizar-rce"
+                    >
+                        ↻ &nbsp; SINCRONIZAR RCE
+                    </button>
+
+                </div>
+            `;
+
+
+            // ==========================================
+            // 7. BOTÓN DE SINCRONIZACIÓN
+            // ==========================================
+
+            const btnSincronizarRce =
+                rceResultados.querySelector(
+                    ".btn-sincronizar-rce"
+                );
+
+            if (yaSincronizado) {
+                btnSincronizarRce.disabled = true;
+                btnSincronizarRce.textContent = "🔒  SINCRONIZADO";
+            }    
+
+            if (yaSincronizado) {
+                const syncInfo = document.createElement("div");
+
+                syncInfo.className = "rce-sync-info";
+
+                syncInfo.innerHTML =
+                     "✓ &nbsp; Este período ya fue sincronizado.";
+
+                rceResultados
+                        .querySelector(".rce-period-card")
+                        .appendChild(syncInfo);
+             }
+
+            if (btnSincronizarRce) {
+
+                btnSincronizarRce.addEventListener(
+                    "click",
+                    async () => {
+
+                        console.log(
+                            "SINCRONIZAR RCE → período:",
+                            periodoSeleccionado
+                        );
+
+                        btnSincronizarRce.disabled = true;
+
+                        btnSincronizarRce.textContent =
+                            "SINCRONIZANDO...";
+
+                        try {
+
+                            const response =
+                                await fetch(
+                                    "/api/sire/sincronizar-rce",
+                                    {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type":
+                                                "application/json"
+                                        },
+                                        body:
+                                            JSON.stringify({
+                                                periodo:
+                                                    periodoSeleccionado
+                                            })
+                                    }
+                                );
+
+                            const data =
+                                await response.json();
+
+                            console.log(
+                                "RESPUESTA SINCRONIZACIÓN RCE:",
+                                data
+                            );
+
+                            if (
+                                !response.ok ||
+                                !data.success
+                            ) {
+                                throw new Error(
+                                    data.mensaje ||
+                                    data.message ||
+                                    "No se pudo sincronizar el RCE."
+                                );
+                            }
+
+// ==================================
+// ACTUALIZAR LA TARJETA 4
+// ==================================
+
+const tarjetaSincronizacion =
+    rceResultados.querySelector(
+        ".rce-resultado-ssco"
     );
-}
 
-/*
- * periodoSeleccionado viene con formato:
- * 2026-08
- *
- * SUNAT devuelve:
- * 202608
- */
-const periodoSUNAT = periodoSeleccionado.replace("-", "");
+state.rceSincronizados[periodoSeleccionado] = true;    
 
-let periodoEncontrado = null;
+if (tarjetaSincronizacion) {
 
-for (const ejercicio of data.datos || []) {
-    const encontrado = (ejercicio.lisPeriodos || []).find(
-        periodo => periodo.perTributario === periodoSUNAT
-    );
+    tarjetaSincronizacion.classList.add("rce-resultado-ssco-sincronizado");
 
-    if (encontrado) {
-        periodoEncontrado = encontrado;
-        break;
-    }
-}
+    tarjetaSincronizacion.innerHTML = `
 
-console.log(
-    "PERÍODO SELECCIONADO:",
-    periodoSeleccionado
-);
-
-console.log(
-    "PERÍODO BUSCADO EN SUNAT:",
-    periodoSUNAT
-);
-
-console.log(
-    "ESTADO REAL DEL PERÍODO:",
-    periodoEncontrado
-);
-
-if (!periodoEncontrado) {
-
-    rceResultados.innerHTML = `
-        <div class="rce-empty">
-            SUNAT no devolvió información para el período
-            <strong>${periodoSeleccionado}</strong>.
+        <div class="rce-status-card-label">
+            RESULTADO SSCO
         </div>
+
+        <div class="rce-sincronizado rce-status-card-value">
+            ✓ SINCRONIZADO
+        </div>
+
     `;
 
-    return;
 }
 
-const estadoSUNAT = periodoEncontrado.desEstado;
-const codigoSUNAT = periodoEncontrado.codEstado;
+                            // ==================================
+                            // BLOQUEAR BOTÓN AL SINCRONIZAR
+                            // ==================================
 
-const esPresentado = codigoSUNAT === "01" ||
-                     estadoSUNAT === "Presentado";
+                            btnSincronizarRce.disabled = true;
 
-const claseEstado = esPresentado
-    ? "rce-presentado"
-    : "rce-no-presentado";
+                            btnSincronizarRce.textContent =
+                                "🔒  SINCRONIZADO";
 
-const textoEstado = esPresentado
-    ? "PRESENTADO"
-    : "NO PRESENTADO";
+                            // ==================================
+                            // MOSTRAR CONFIRMACIÓN
+                            // ==================================
 
-const [anio, mes] = periodoSeleccionado.split("-");
+                            const syncInfo =
+                                document.createElement("div");
 
-const nombresMeses = [
-    "",
-    "ENERO",
-    "FEBRERO",
-    "MARZO",
-    "ABRIL",
-    "MAYO",
-    "JUNIO",
-    "JULIO",
-    "AGOSTO",
-    "SEPTIEMBRE",
-    "OCTUBRE",
-    "NOVIEMBRE",
-    "DICIEMBRE"
-];
+                            syncInfo.className =
+                                "rce-sync-info";
 
-const periodoTexto = `${nombresMeses[Number(mes)]} ${anio}`;
+                            syncInfo.innerHTML =
+                                "✓ &nbsp; Este período ya fue sincronizado.";
 
-rceResultados.innerHTML = `
-    <div class="rce-period-card">
+                            rceResultados
+                                .querySelector(
+                                    ".rce-period-card"
+                                )
+                                .appendChild(
+                                    syncInfo
+                                );
 
-        <div class="rce-card-header">
+                                if (rceHistorialBody && !state.rceHistorial.includes(periodoSeleccionado)) {
+                                    state.rceHistorial.push(periodoSeleccionado);
 
-            <div class="rce-brand">
+                                    const ahora = new Date();
 
-                <div class="rce-period-icon">
-                    RCE
-                </div>
+                                    const fecha = ahora.toLocaleDateString("es-PE");
+                                    const hora = ahora.toLocaleTimeString("es-PE", {
+                                        hour: "2-digit",
+                                        minute: "2-digit"
+                                    });
 
-                <div>
-                    <div class="rce-card-kicker">
-                        Registro de Compras SIRE
-                    </div>
+                                    let totalRegistros = "—";
+                                    let proveedoresUnicos = "—";
+                                    let observados = "—";
+                                    let observadosDetalle = [];
 
-                    <div class="rce-period-title">
-                        Período tributario
-                    </div>
+                                    try {
+                                        const lecturaResponse =
+                                            await fetch(`/api/sire/rce-leer/${periodoApi}`);
 
-                    <div class="rce-period-value">
-                        ${periodoTexto}
-                    </div>
-                </div>
+                                        const lecturaData =
+                                            await lecturaResponse.json();
 
-            </div>
+                                        if (lecturaData.success) {
 
-            <div class="rce-sunat-badge">
-                ✓ SUNAT
-            </div>
+                                            const registros =
+                                                lecturaData.registros || [];
 
-        </div>
+                                            totalRegistros =
+                                                registros.length.toLocaleString("es-PE");
 
+                                            const rucs =
+                                                registros
+                                                    .map(registro =>
+                                                        String(registro["Nro Doc Identidad"] || "").trim()
+                                                    )
+                                                    .filter(Boolean);
 
-        <div class="rce-status-info">
+                                            proveedoresUnicos =
+                                                new Set(rucs).size.toLocaleString("es-PE");
 
-            <div class="rce-status-card">
+                                            const padronRucs =
+                                                new Set(
+                                                    (state.padron || [])
+                                                        .map(item =>
+                                                            String(item.ruc || "").trim()
+                                                        )
+                                                );
 
-                <div class="rce-status-card-label">
-                    ESTADO SUNAT
-                </div>
+                                            observadosDetalle =
+                                                 registros.filter(registro =>
+                                                    padronRucs.has(
+                                                        String(
+                                                               registro["Nro Doc Identidad"] || ""
+                                                           ).trim()
+                                                       )
+                                                 );
 
-                <div class="${claseEstado} rce-status-card-value">
-                    ✓ ${textoEstado}
-                </div>
+                                            observados =
+                                                registros
+                                                    .filter(registro =>
+                                                        padronRucs.has(
+                                                            String(registro["Nro Doc Identidad"] || "").trim()
+                                                        )
+                                                    )
+                                                    .length
+                                                    .toLocaleString("es-PE");
+                                        }
 
-            </div>
+                                    } catch (error) {
 
+                                        console.error(
+                                            "No se pudo calcular el resumen del RCE:",
+                                            error
+                                        );
+                                    }
 
-            <div class="rce-status-card">
+                                    const fila = document.createElement("tr");
 
-                <div class="rce-status-card-label">
-                    PERÍODO
-                </div>
+                                    fila.innerHTML = `
+                                        <td><strong>${periodoSeleccionado}</strong></td>
+                                        <td><span class="history-status presentado">PRESENTADO</span></td>
+                                        <td><span class="history-status sincronizado">SINCRONIZADO</span></td>
+                                        <td>${fecha}<br><small>${hora}</small></td>
+                                        <td><strong>${data.ticket || "—"}</strong></td>
+                                        <td>${data.archivo || "—"}</td>
+                                        <td>${totalRegistros}</td>
+                                        <td>${proveedoresUnicos}</td>
+                                        <td><span class="history-observed">${observados}</span></td>
+                                        <button
+                                            type="button"
+                                            class="btn-ver-detalles"
+                                            ${observadosDetalle.length === 0 ? "disabled" : ""}
+                                        >
+                                            Ver detalles
+                                        </button>
+                                    `;
 
-                <div class="rce-status-card-value">
-                    ${periodoSUNAT}
-                </div>
+                                    rceHistorialBody.appendChild(fila);
 
-            </div>
+                                    rceHistorialBody.appendChild(fila);
 
+                                    const btnDetalles =
+                                        fila.querySelector(".btn-ver-detalles");
 
-            <div class="rce-status-card">
+                                    if (btnDetalles && observadosDetalle.length > 0) {
 
-                <div class="rce-status-card-label">
-                    CÓDIGO SUNAT
-                </div>
+                                        btnDetalles.addEventListener("click", () => {
 
-                <div class="rce-status-card-value">
-                    ${codigoSUNAT}
-                </div>
+                                            const detalleExistente =
+                                                fila.nextElementSibling;
 
-            </div>
+                                            if (
+                                                detalleExistente &&
+                                                detalleExistente.classList.contains(
+                                                    "rce-detalle-historial"
+                                                )
+                                            ) {
+                                                detalleExistente.remove();
+                                                return;
+                                            }
 
-        </div>
+                                            const detalleFila =
+                                                document.createElement("tr");
 
+                                            detalleFila.className =
+                                                "rce-detalle-historial";
 
-        <button
-            type="button"
-            class="btn-sincronizar-rce"
-            disabled
-        >
-            ↻ &nbsp; SINCRONIZAR RCE
-        </button>
+                                            const detalleCelda =
+                                                document.createElement("td");
 
-    </div>
-`;
+                                            detalleCelda.colSpan = 10;
 
-        } catch (error) {
+                                            detalleCelda.innerHTML = `
+                                                <strong>DETALLE SSCO — ${periodoSeleccionado}</strong>
+                                                <br><br>
+                                            `;
 
-            console.error("ERROR CONSULTANDO RCE:", error);
+                                            const tabla =
+                                                document.createElement("table");
 
+                                            tabla.style.width = "100%";
+
+                                            const encabezado =
+                                                tabla.insertRow();
+
+                                            [
+                                                "RUC PROVEEDOR",
+                                                "RAZÓN SOCIAL",
+                                                "COMPROBANTE",
+                                                "FECHA",
+                                                "BASE IMPONIBLE",
+                                                "IGV",
+                                                "TOTAL"
+                                            ].forEach(texto => {
+
+                                                const th =
+                                                    document.createElement("th");
+
+                                                th.textContent = texto;
+                                                encabezado.appendChild(th);
+
+                                            });
+
+                                            observadosDetalle.forEach(registro => {
+
+                                                const tr =
+                                                    tabla.insertRow();
+
+                                                const comprobante = [
+                                                    registro["Tipo CP/Doc."],
+                                                    registro["Serie del CDP"],
+                                                    registro[
+                                                        "Nro CP o Doc. Nro Inicial (Rango)"
+                                                    ]
+                                                ]
+                                                    .filter(Boolean)
+                                                    .join("-");
+
+                                                [
+                                                    registro["Nro Doc Identidad"],
+                                                    registro[
+                                                        "Apellidos Nombres/ Razón  Social"
+                                                    ],
+                                                    comprobante,
+                                                    registro["Fecha de emisión"],
+                                                    registro["BI Gravado DG"],
+                                                    registro["IGV / IPM DG"],
+                                                    registro["Total CP"]
+                                                ].forEach(valor => {
+
+                                                    const td =
+                                                        document.createElement("td");
+
+                                                    td.textContent =
+                                                        String(valor || "—");
+
+                                                    tr.appendChild(td);
+
+                                                });
+                                            });
+
+                                            detalleCelda.appendChild(tabla);
+                                            detalleFila.appendChild(detalleCelda);
+
+                                            fila.after(detalleFila);
+                                        });
+                                    }
+
+                                    }
+                            
+                                
+                            alert(
+                                "RCE sincronizado correctamente para el período " +
+                                periodoSeleccionado
+                            );
+
+                        } catch (error) {
+
+                            console.error(
+                                "ERROR SINCRONIZANDO RCE:",
+                                error
+                            );
+
+                            // ==================================
+                            // RESULTADO SSCO → OBSERVADO
+                            // ==================================
+
+                            const tarjetaSincronizacion =
+                                rceResultados.querySelector(
+                                    ".rce-status-card:nth-child(4)"
+                                );
+
+                            if (tarjetaSincronizacion) {
+
+                                tarjetaSincronizacion.classList.add("rce-resultado-ssco-observado");
+
+                                tarjetaSincronizacion.innerHTML = `
+
+                                    <div class="rce-status-card-label">
+                                        RESULTADO SSCO
+                                    </div>
+
+                                    <div class="rce-observado rce-status-card-value">
+                                        ✕ OBSERVADO
+                                    </div>
+
+                                `;
+
+                            }
+
+                            btnSincronizarRce.disabled = false;
+
+                            btnSincronizarRce.textContent =
+                                "↻  SINCRONIZAR RCE";
+
+                            alert(
+                                "El RCE quedó OBSERVADO.\n\n" +
+                                error.message
+                            );
+
+                        }
+                    }
+                );
+            }
+
+            } catch (error) {
+
+                console.error(
+                    "ERROR CONSULTANDO RCE:",
+                    error
+                );
+                
             rceResultados.innerHTML = `
                 <div class="rce-empty">
                     No se pudo consultar el RCE en este momento.
@@ -2044,7 +2811,9 @@ rceResultados.innerHTML = `
         } finally {
 
             btnConsultarRce.disabled = false;
-            btnConsultarRce.textContent = "CONSULTAR RCE";
+
+            btnConsultarRce.textContent =
+                "CONSULTAR RCE";
         }
     });
 }
